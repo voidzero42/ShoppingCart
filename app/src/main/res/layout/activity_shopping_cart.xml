@@ -6,130 +6,130 @@
     android:layout_height="match_parent"
     tools:context="com.orangelife.mobile.shoppingcart.activity.ShoppingCartActivity">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
+    <RelativeLayout
+        android:id="@+id/rlTitleBar"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#FFF">
+
+        <TextView
+            android:layout_width="160dp"
             android:layout_height="50dp"
-            android:background="#FFF" >
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="100dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="购物车(77)"
+            android:textSize="16dp"/>
 
-            <TextView
-                android:layout_width="160dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="100dp"
-                android:gravity="center_horizontal|center_vertical"
-                android:layout_centerInParent="true"
-                android:text="购物车(77)"
-                android:textSize="16dp" />
+        <TextView
+            android:id="@+id/tvEditAll"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="全部编辑"
+            android:textSize="14sp"/>
 
-            <TextView
-                android:id="@+id/tvEditAll"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:gravity="center_horizontal|center_vertical"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:text="全部编辑"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="0.5dp"
-                android:layout_alignParentBottom="true"
-                android:background="#CCC" />
-        </RelativeLayout>
-
-        <ScrollView
+        <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="110dp"
-            android:background="#FFF" >
-
-            <LinearLayout
-                android:id="@+id/shopcar_DS"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:background="#FFFFFF" >
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_alignParentTop="true"
-                android:background="#ccc" />
-            <ImageView
-                android:id="@+id/car_carallselect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="2dp"
-                android:background="@drawable/shopcar_select" />
+            android:background="#CCC"/>
+    </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/car_carallselect"
-                android:layout_marginLeft="5dp"
-                android:layout_centerVertical="true"
-                android:text="全选"
-                android:textSize="14dp" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/myRecyclerView"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rlBottomBar"
+        android:layout_below="@+id/rlTitleBar"
+        />
+
+    <RelativeLayout
+        android:id="@+id/rlBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentTop="true"
+            android:background="#ccc"/>
+
+        <ImageView
+            android:id="@+id/car_carallselect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/shopcar_select"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/car_carallselect"
+            android:text="全选"
+            android:textSize="14dp"/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/carCountMoney"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="5dp"
-                        android:gravity="right"
-                        android:text="合计：￥0.0"
-                        android:textColor="#ff2600"
-                        android:textSize="16dp" />
-
-                    <TextView
-                        android:layout_marginRight="5dp"
-                        android:id="@+id/car_freightMoney"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:gravity="right"
-                        android:text="含运费：￥0.0"
-                        android:textColor="#666666"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/payBtn"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    android:id="@+id/carCountMoney"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="#FF2600"
-                    android:gravity="center_vertical"
-                    android:text="结算(0)"
-                    android:textColor="#FFF"
-                    android:textSize="16dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="right"
+                    android:text="合计：￥0.0"
+                    android:textColor="#ff2600"
+                    android:textSize="16dp"/>
+
+                <TextView
+                    android:id="@+id/car_freightMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="right"
+                    android:text="含运费：￥0.0"
+                    android:textColor="#666666"
+                    android:textSize="12sp"/>
+
             </LinearLayout>
-        </RelativeLayout>
+
+            <TextView
+                android:id="@+id/payBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="#FF2600"
+                android:gravity="center_vertical"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp"
+                android:text="结算(0)"
+                android:textColor="#FFF"
+                android:textSize="16dp"/>
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>
