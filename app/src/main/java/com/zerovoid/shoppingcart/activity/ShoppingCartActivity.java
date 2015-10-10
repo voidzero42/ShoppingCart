@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ExpandableListView;
 
 import com.zerovoid.shoppingcart.R;
+import com.zerovoid.shoppingcart.adapter.MyExpandableListAdapter;
 import com.zerovoid.shoppingcart.adapter.MyRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -14,10 +16,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ShoppingCartActivity extends Activity {
-    @Bind(R.id.myRecyclerView)
-    RecyclerView myRecyclerView;
-
-    private ArrayList<String> mList = new ArrayList<String>();
+    @Bind(R.id.expandableListView)
+    ExpandableListView expandableListView;
+    private ArrayList<String> mListGroup = new ArrayList<String>();
+    private ArrayList<ArrayList<String>> mListChild = new ArrayList<ArrayList<String>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +31,43 @@ public class ShoppingCartActivity extends Activity {
     }
 
     private void initView() {
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myRecyclerView.setAdapter(new MyRecyclerViewAdapter(this, mList));
+        expandableListView.setGroupIndicator(null);
+        expandableListView.setAdapter(new MyExpandableListAdapter(this, mListGroup, mListChild));
+        expandAllGroup();
     }
 
     private void initData() {
-        for (int i = 0; i < 50; i++) {
-            mList.add("我是item" + i);
+        mListGroup.add("1");
+        mListGroup.add("2");
+        mListGroup.add("3");
+
+        ArrayList<String> listChild1 = new ArrayList<String>();
+        listChild1.add("1八月1号");
+        listChild1.add("1八月2号");
+        listChild1.add("1八月3号");
+
+        ArrayList<String> listChild2 = new ArrayList<String>();
+        listChild2.add("2八月1号");
+        listChild2.add("2八月2号");
+        listChild2.add("2八月3号");
+
+        ArrayList<String> listChild3 = new ArrayList<String>();
+        listChild3.add("3八月1号");
+        listChild3.add("3八月2号");
+        listChild3.add("3八月3号");
+
+        mListChild.add(listChild1);
+        mListChild.add(listChild2);
+        mListChild.add(listChild3);
+    }
+
+
+    /**
+     * 展开所有组
+     */
+    private void expandAllGroup() {
+        for (int i = 0; i < mListGroup.size(); i++) {
+            expandableListView.expandGroup(i);
         }
     }
 

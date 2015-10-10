@@ -40,15 +40,13 @@
             android:background="#CCC"/>
     </RelativeLayout>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/myRecyclerView"
-        android:background="@color/colorPrimaryDark"
+    <ExpandableListView
+        android:id="@+id/expandableListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/rlBottomBar"
         android:layout_below="@+id/rlTitleBar"
-        />
+        android:dividerHeight="10dp"/>
 
     <RelativeLayout
         android:id="@+id/rlBottomBar"
