@@ -10,8 +10,8 @@
 
         <activity android:name=".activity.ShoppingCartActivity">
             <intent-filter>
-                <action android:name="android.intent.action.main"/>
-                <category android:name="android.intent.category.launcher"/>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
