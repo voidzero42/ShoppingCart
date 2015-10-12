@@ -19,7 +19,8 @@
             android:layout_marginLeft="100dp"
             android:gravity="center_horizontal|center_vertical"
             android:text="购物车(77)"
-            android:textSize="16dp"/>
+            android:textColor="#003333"
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/tvEditAll"
@@ -31,7 +32,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="全部编辑"
-            android:textSize="14sp"/>
+            android:textColor="#003333"
+            android:textSize="13sp"/>
 
         <ImageView
             android:layout_width="fill_parent"
@@ -66,17 +68,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="2dp"
-            android:background="@drawable/shopcar_select"/>
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_uncheck"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
+            android:textColor="#003333"
             android:layout_toRightOf="@+id/car_carallselect"
             android:text="全选"
-            android:textSize="14dp"/>
+            android:textSize="13sp"/>
 
 
         <LinearLayout
@@ -99,7 +102,7 @@
                     android:gravity="right"
                     android:text="合计：￥0.0"
                     android:textColor="#ff2600"
-                    android:textSize="16dp"/>
+                    android:textSize="13sp"/>
 
                 <TextView
                     android:id="@+id/car_freightMoney"
@@ -111,7 +114,7 @@
                     android:gravity="right"
                     android:text="含运费：￥0.0"
                     android:textColor="#666666"
-                    android:textSize="12sp"/>
+                    android:textSize="11sp"/>
 
             </LinearLayout>
 
@@ -119,7 +122,7 @@
                 android:id="@+id/payBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="#FF2600"
+                android:background="#ff5000"
                 android:gravity="center_vertical"
                 android:paddingBottom="5dp"
                 android:paddingLeft="20dp"
@@ -127,7 +130,7 @@
                 android:paddingTop="5dp"
                 android:text="结算(0)"
                 android:textColor="#FFF"
-                android:textSize="16dp"/>
+                android:textSize="14sp"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">仿淘宝购物车</string>
     <string name="title_activity_expandable">ExpandableActivity</string>
+    <string name="edit">编辑</string>
 </resources>

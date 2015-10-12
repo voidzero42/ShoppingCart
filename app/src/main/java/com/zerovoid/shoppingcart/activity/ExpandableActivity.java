@@ -15,7 +15,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * @Author WuGefei
+ * @Author zerovoid
  */
 public class ExpandableActivity extends Activity {
 

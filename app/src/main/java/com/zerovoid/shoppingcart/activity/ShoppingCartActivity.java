@@ -37,24 +37,24 @@ public class ShoppingCartActivity extends Activity {
     }
 
     private void initData() {
-        mListGroup.add("1");
-        mListGroup.add("2");
-        mListGroup.add("3");
+        mListGroup.add("Alienware旗舰店");
+        mListGroup.add("魅族官方旗舰店");
+        mListGroup.add("小米官方旗舰店");
 
         ArrayList<String> listChild1 = new ArrayList<String>();
-        listChild1.add("1八月1号");
+        listChild1.add("Razer雷蛇炼狱皇蛇鼠标");
         listChild1.add("1八月2号");
         listChild1.add("1八月3号");
 
         ArrayList<String> listChild2 = new ArrayList<String>();
-        listChild2.add("2八月1号");
-        listChild2.add("2八月2号");
-        listChild2.add("2八月3号");
+        listChild2.add("魅蓝Note2");
+        listChild2.add("魅族Pro5");
+        listChild2.add("魅族MX4");
 
         ArrayList<String> listChild3 = new ArrayList<String>();
-        listChild3.add("3八月1号");
-        listChild3.add("3八月2号");
-        listChild3.add("3八月3号");
+        listChild3.add("小米3");
+        listChild3.add("小米4");
+        listChild3.add("红米Note");
 
         mListChild.add(listChild1);
         mListChild.add(listChild2);
