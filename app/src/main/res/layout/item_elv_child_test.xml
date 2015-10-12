@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
     <ImageView
-        android:id="@+id/ivCheckGroup"
+        android:id="@+id/ivCheckGood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -13,7 +13,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/ic_uncheck" />
+        android:background="@drawable/ic_uncheck"/>
 
     <ImageView
         android:id="@+id/ivGoods"
@@ -23,20 +23,22 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/ivCheckGroup"
-        android:layout_toRightOf="@+id/ivCheckGroup"
-        android:background="@drawable/test_goods" />
+        android:layout_toEndOf="@+id/ivCheckGood"
+        android:layout_toRightOf="@+id/ivCheckGood"
+        android:background="@drawable/test_goods"/>
 
     <LinearLayout
+        android:id="@+id/llGoodInfo"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_toRightOf="@+id/ivGoods"
+        android:gravity="center_vertical"
         android:orientation="vertical"
+        android:visibility="gone"
         android:weightSum="3">
 
         <TextView
@@ -48,7 +50,7 @@
             android:layout_weight="1"
             android:text="商品"
             android:textColor="#003333"
-            android:textSize="12sp" />
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/tvGoodsParam"
@@ -59,7 +61,7 @@
             android:gravity="top"
             android:text="商品名称"
             android:textColor="#7f7f7f"
-            android:textSize="12sp" />
+            android:textSize="12sp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -76,7 +78,7 @@
                 android:gravity="bottom"
                 android:text="当前价格"
                 android:textColor="#ff3a00"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/textView3"
@@ -88,7 +90,7 @@
                 android:gravity="bottom"
                 android:text="X 1"
                 android:textColor="#333333"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/textView4"
@@ -101,9 +103,70 @@
                 android:gravity="bottom"
                 android:text="原先价格"
                 android:textColor="#8e8e8e"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </RelativeLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlEditStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="90dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/ivGoods"
+        android:orientation="horizontal"
+        >
+
+
+        <LinearLayout
+            android:id="@+id/llGoodLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tvDel"
+            >
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_shop"/>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="1"/>
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_shop"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvDel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="#ff5000"
+            android:gravity="center_vertical"
+            android:paddingLeft="7.5dp"
+            android:paddingRight="7.5dp"
+            android:text="删除"
+            android:textColor="#FFF"
+            android:textSize="14sp"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

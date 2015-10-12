@@ -7,9 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zerovoid.shoppingcart.R;
+import com.zerovoid.shoppingcart.biz.ShoppingCartBiz;
 
 import java.util.ArrayList;
 
@@ -69,10 +73,12 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             holder = new GroupViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_elv_group_test, parent, false);
             holder.tvGroup = (TextView) convertView.findViewById(R.id.tvShopNameGroup);
+            holder.tvEdit = (TextView) convertView.findViewById(R.id.tvEdit);
             convertView.setTag(holder);
         } else {
             holder = (GroupViewHolder) convertView.getTag();
         }
+        holder.tvEdit.setOnClickListener(listener);
         holder.tvGroup.setText(mListGroup.get(groupPosition));
         Log.e("MyExpandableAdapter", "group text=" + mListGroup.get(groupPosition));
         return convertView;
@@ -85,15 +91,35 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             holder = new ChildViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_elv_child_test, parent, false);
             holder.tvChild = (TextView) convertView.findViewById(R.id.tvItemChild);
+            holder.ivCheckGood = (ImageView) convertView.findViewById(R.id.ivCheckGood);
+            holder.rlEditStatus = (RelativeLayout) convertView.findViewById(R.id.rlEditStatus);
+            holder.llGoodInfo = (LinearLayout) convertView.findViewById(R.id.llGoodInfo);
             convertView.setTag(holder);
         } else {
             holder = (ChildViewHolder) convertView.getTag();
         }
         String text = mListChild.get(groupPosition).get(childPosition);
+        holder.ivCheckGood.setOnClickListener(listener);
         Log.e("MyExpandableAdapter", "child text=" + text);
         holder.tvChild.setText(text);
         return convertView;
     }
+
+    boolean isCheckGood = false;
+
+    private View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.ivCheckGood:
+                    isCheckGood = ShoppingCartBiz.checkItem(isCheckGood, (ImageView) view);
+                    break;
+                case R.id.tvEdit:
+
+                    break;
+            }
+        }
+    };
 
     @Override
     public boolean isChildSelectable(int i, int i1) {
@@ -102,9 +128,13 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
     class GroupViewHolder {
         TextView tvGroup;
+        TextView tvEdit;
     }
 
     class ChildViewHolder {
         TextView tvChild;
+        ImageView ivCheckGood;
+        LinearLayout llGoodInfo;
+        RelativeLayout rlEditStatus;
     }
 }
