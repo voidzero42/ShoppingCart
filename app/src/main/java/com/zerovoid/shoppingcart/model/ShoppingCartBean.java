@@ -21,6 +21,4 @@ public class ShoppingCartBean {
     /** 店铺名称 */
     private String merchantName;
 
-
-
 }
