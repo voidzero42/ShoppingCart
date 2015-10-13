@@ -33,4 +33,14 @@ public class ShoppingCartBiz {
         return isSelect;
     }
 
+    /**
+     * 添加到购物车
+     *
+     * @return 是否添加成功
+     */
+    public static boolean addGoodToShoppingCart(String productID,String number) {
+
+        return false;
+    }
+
 }
