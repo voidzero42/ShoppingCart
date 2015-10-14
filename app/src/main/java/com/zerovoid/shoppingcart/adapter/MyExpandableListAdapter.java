@@ -14,41 +14,48 @@ import android.widget.TextView;
 
 import com.zerovoid.shoppingcart.R;
 import com.zerovoid.shoppingcart.biz.ShoppingCartBiz;
+import com.zerovoid.shoppingcart.biz.ShoppingCartHttpBiz;
+import com.zerovoid.shoppingcart.model.ShoppingCartBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 绯若虚无 on 2015/10/10.
  */
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private Context mContext;
-    private ArrayList<String> mListGroup;
-    private ArrayList<ArrayList<String>> mListChild;
+    private List<ShoppingCartBean> mListChild;
 
-    public MyExpandableListAdapter(Context context, ArrayList<String> listGroup, ArrayList<ArrayList<String>> listChild) {
+    public MyExpandableListAdapter(Context context, List<ShoppingCartBean> listChild) {
         mContext = context;
         mListChild = listChild;
-        mListGroup = listGroup;
+    }
+
+    public void setList(List<ShoppingCartBean> mListChildGoods) {
+        mListChild.clear();
+        mListChild.addAll(mListChildGoods);
     }
 
     @Override
     public int getGroupCount() {
-        return mListGroup.size();
+        return mListChild.size();
     }
 
+    //mListChild.get(i).getGoods().size()
     @Override
     public int getChildrenCount(int i) {
-        return mListChild.size();
+        return mListChild.get(i).getGoods().size();
     }
 
     @Override
     public Object getGroup(int i) {
-        return mListGroup.get(i);
+        return null;
     }
 
     @Override
     public Object getChild(int i, int i1) {
-        return mListChild.get(i).get(i1);
+        return mListChild.get(i).getGoods();
     }
 
     @Override
@@ -79,8 +86,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             holder = (GroupViewHolder) convertView.getTag();
         }
         holder.tvEdit.setOnClickListener(listener);
-        holder.tvGroup.setText(mListGroup.get(groupPosition));
-        Log.e("MyExpandableAdapter", "group text=" + mListGroup.get(groupPosition));
+        holder.tvGroup.setText(mListChild.get(groupPosition).getMerchantName());
         return convertView;
     }
 
@@ -98,7 +104,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (ChildViewHolder) convertView.getTag();
         }
-        String text = mListChild.get(groupPosition).get(childPosition);
+        ShoppingCartBean.Goods goods = mListChild.get(groupPosition).getGoods().get(childPosition);
+        String text = goods.getGoodsName();
+        String itemStat = goods.getItemStat();
         holder.ivCheckGood.setOnClickListener(listener);
         Log.e("MyExpandableAdapter", "child text=" + text);
         holder.tvChild.setText(text);

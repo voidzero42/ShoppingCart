@@ -1,0 +1,44 @@
+{
+  "errCode": 0,
+  "errInfo": "OK",
+  "pageEntity": [
+    {
+      "goods": [
+        {
+          "itemStat": "1",
+          "price": "11",
+          "pdtDesc": "1kg\/袋",
+          "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
+          "mkPrice": "80",
+          "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "goodsName": "手动阀"
+        }
+      ],
+      "merchantName": "烤鱼",
+      "dispatch": [
+        {
+          "fee": 20,
+          "dispatchType": "1",
+          "dispatchName": "邮寄",
+          "dispatchID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "limitFee": 100
+        },
+        {
+          "fee": 0,
+          "dispatchType": "2",
+          "dispatchName": "到店提货",
+          "dispatchID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "limitFee": 0
+        },
+        {
+          "fee": 10,
+          "dispatchType": "3",
+          "dispatchName": "送货上门",
+          "dispatchID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "limitFee": 50
+        }
+      ],
+      "merchantID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514"
+    }
+  ]
+}

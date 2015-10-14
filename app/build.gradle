@@ -26,4 +26,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:design:23.0.1'
+    compile files('libs/Volley.jar')
+    compile files('libs/gson-2.2.2.jar')
 }
