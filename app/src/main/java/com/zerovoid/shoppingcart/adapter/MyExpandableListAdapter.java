@@ -81,10 +81,14 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_elv_group_test, parent, false);
             holder.tvGroup = (TextView) convertView.findViewById(R.id.tvShopNameGroup);
             holder.tvEdit = (TextView) convertView.findViewById(R.id.tvEdit);
+            holder.ivCheckGroup = (ImageView) convertView.findViewById(R.id.ivCheckGroup);
             convertView.setTag(holder);
         } else {
             holder = (GroupViewHolder) convertView.getTag();
         }
+        ShoppingCartBiz.checkItem(mListChild.get(groupPosition).isGroupSelected(), holder.ivCheckGroup);
+        holder.ivCheckGroup.setTag(groupPosition);
+        holder.ivCheckGroup.setOnClickListener(listener);
         holder.tvEdit.setOnClickListener(listener);
         holder.tvGroup.setText(mListChild.get(groupPosition).getMerchantName());
         return convertView;
@@ -107,23 +111,34 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         ShoppingCartBean.Goods goods = mListChild.get(groupPosition).getGoods().get(childPosition);
         String text = goods.getGoodsName();
         String itemStat = goods.getItemStat();
+        ShoppingCartBiz.checkItem(mListChild.get(groupPosition).getGoods().get(childPosition).isChildSelected(), holder.ivCheckGood);
+        holder.ivCheckGood.setTag(groupPosition + "," + childPosition);
         holder.ivCheckGood.setOnClickListener(listener);
         Log.e("MyExpandableAdapter", "child text=" + text);
         holder.tvChild.setText(text);
         return convertView;
     }
 
-    boolean isCheckGood = false;
-
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.ivCheckGood:
-                    isCheckGood = ShoppingCartBiz.checkItem(isCheckGood, (ImageView) view);
+                    String tag = String.valueOf(view.getTag());
+                    if (tag.contains(",")) {
+                        String s[] = tag.split(",");
+                        mListChild = ShoppingCartBiz.selectOne(mListChild, Integer.parseInt(s[0]), Integer.parseInt(s[1]), (ImageView) view);
+                    }
                     break;
                 case R.id.tvEdit:
 
+                    break;
+                case R.id.ivCheckGroup:
+                    int groupPosition = Integer.parseInt(String.valueOf(view.getTag()));
+                    ShoppingCartBiz.selectGroup(mListChild, groupPosition);
+//                    mListChild.clear();
+//                    mListChild.addAll(list);
+                    notifyDataSetChanged();
                     break;
             }
         }
@@ -137,6 +152,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     class GroupViewHolder {
         TextView tvGroup;
         TextView tvEdit;
+        ImageView ivCheckGroup;
     }
 
     class ChildViewHolder {

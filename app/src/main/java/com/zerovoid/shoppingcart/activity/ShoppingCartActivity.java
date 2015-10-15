@@ -72,7 +72,8 @@ public class ShoppingCartActivity extends Activity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.ivSelectAll:
-                    isSelectAll = ShoppingCartBiz.checkItem(isSelectAll, ivSelectAll);
+                    isSelectAll = ShoppingCartBiz.selectAll(mListChildGoods, isSelectAll, (ImageView) view);
+                    adapter.notifyDataSetChanged();
                     break;
                 case R.id.tvEditAll:
                     Toast.makeText(ShoppingCartActivity.this, "编辑全部", Toast.LENGTH_SHORT).show();

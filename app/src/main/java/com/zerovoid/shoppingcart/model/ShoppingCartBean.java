@@ -11,8 +11,11 @@ public class ShoppingCartBean {
 
     public static final String EDIT_STATUS_FALSE = "1";
 
+
     /** 是否处于编辑状态 */
-    private String isEditStatus = EDIT_STATUS_TRUE;
+    private boolean isEditing;
+
+    private boolean isGroupSelected;
 
     /** 店铺名称 */
     private String merchantName;
@@ -23,6 +26,18 @@ public class ShoppingCartBean {
     private ArrayList<Goods> goods;
 
     private ArrayList<Dispatch> dispatch;
+
+    public boolean isEditing() {
+        return isEditing;
+    }
+
+    public boolean isGroupSelected() {
+        return isGroupSelected;
+    }
+
+    public void setIsGroupSelected(boolean isGroupSelected) {
+        this.isGroupSelected = isGroupSelected;
+    }
 
     public ArrayList<Goods> getGoods() {
         return goods;
@@ -56,12 +71,8 @@ public class ShoppingCartBean {
         this.merchantID = merchantID;
     }
 
-    public String getIsEditStatus() {
-        return isEditStatus;
-    }
-
-    public void setIsEditStatus(String isEditStatus) {
-        this.isEditStatus = isEditStatus;
+    public void setIsEditing(boolean isEditing) {
+        this.isEditing = isEditing;
     }
 
     /** 商品类 */
@@ -80,6 +91,16 @@ public class ShoppingCartBean {
         private String price;
         /** 是否失效 */
         private String itemStat;
+
+        private boolean isChildSelected;
+
+        public boolean isChildSelected() {
+            return isChildSelected;
+        }
+
+        public void setIsChildSelected(boolean isChildSelected) {
+            this.isChildSelected = isChildSelected;
+        }
 
         public String getGoodsID() {
             return goodsID;
