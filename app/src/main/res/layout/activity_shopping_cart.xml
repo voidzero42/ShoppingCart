@@ -23,6 +23,7 @@
             android:textSize="15sp"/>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tvEditAll"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -78,9 +79,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:textColor="#003333"
             android:layout_toRightOf="@+id/ivSelectAll"
             android:text="全选"
+            android:textColor="#003333"
             android:textSize="13sp"/>
 
 
@@ -96,7 +97,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/carCountMoney"
+                    android:id="@+id/tvCountMoney"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -107,14 +108,14 @@
                     android:textSize="13sp"/>
 
                 <TextView
-                    android:id="@+id/car_freightMoney"
+                    android:id="@+id/tvPostPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:gravity="right"
-                    android:text="含运费：￥0.0"
+                    android:text="不含运费"
                     android:textColor="#666666"
                     android:textSize="11sp"/>
 

@@ -77,6 +77,8 @@ public class ShoppingCartBean {
 
     /** 商品类 */
     public static class Goods {
+        /** 数量 */
+        private String number;
         /** 商品ID */
         private String goodsID;
         /** 商品名称 */
@@ -85,14 +87,24 @@ public class ShoppingCartBean {
         private String goodsLogo;
         /** 商品规格 */
         private String pdtDesc;
-        /** 市场价 */
+        /** 市场价，原价 */
         private String mkPrice;
-        /** 价格 */
+        /** 价格，当前价格 */
         private String price;
         /** 是否失效 */
         private String itemStat;
 
+        private boolean isEditing;
+
         private boolean isChildSelected;
+
+        public boolean isEditing() {
+            return isEditing;
+        }
+
+        public void setIsEditing(boolean isEditing) {
+            this.isEditing = isEditing;
+        }
 
         public boolean isChildSelected() {
             return isChildSelected;
@@ -157,9 +169,18 @@ public class ShoppingCartBean {
         public void setItemStat(String itemStat) {
             this.itemStat = itemStat;
         }
+
+        public String getNumber() {
+            return number;
+        }
+
+        public void setNumber(String number) {
+            this.number = number;
+        }
     }
 
     public static class Dispatch {
+
         /** 配送ID */
         private String dispatchID;
         /** 配送方式名称 */
@@ -170,6 +191,7 @@ public class ShoppingCartBean {
         private String fee;
         /** 满多少免运费 */
         private String limitFee;
+
 
         public String getDispatchID() {
             return dispatchID;

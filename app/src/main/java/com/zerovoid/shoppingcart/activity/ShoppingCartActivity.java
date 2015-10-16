@@ -2,20 +2,15 @@ package com.zerovoid.shoppingcart.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.zerovoid.common.util.ToastHelper;
 import com.zerovoid.http.VollyHelperNew;
 import com.zerovoid.shoppingcart.R;
 import com.zerovoid.shoppingcart.adapter.MyExpandableListAdapter;
-import com.zerovoid.shoppingcart.adapter.MyRecyclerViewAdapter;
-import com.zerovoid.shoppingcart.biz.ShoppingCartBiz;
 import com.zerovoid.shoppingcart.biz.ShoppingCartHttpBiz;
 import com.zerovoid.shoppingcart.model.ShoppingCartBean;
 
@@ -32,8 +27,10 @@ public class ShoppingCartActivity extends Activity {
     ExpandableListView expandableListView;
     @Bind(R.id.ivSelectAll)
     ImageView ivSelectAll;
-    @Bind(R.id.tvEditAll)
-    TextView tvEditAll;
+    @Bind(R.id.btnSettle)
+    TextView btnSettle;
+    @Bind(R.id.tvCountMoney)
+    TextView tvCountMoney;
     private List<ShoppingCartBean> mListChildGoods = new ArrayList<>();
     private MyExpandableListAdapter adapter;
 
@@ -50,7 +47,8 @@ public class ShoppingCartActivity extends Activity {
     private void setAdapter() {
         adapter = new MyExpandableListAdapter(this, mListChildGoods);
         expandableListView.setAdapter(adapter);
-        adapter.setImageViewSelectAll(ivSelectAll);
+//        adapter.setImageViewSelectAll(ivSelectAll);
+        adapter.setImageViewSelectAll(ivSelectAll, btnSettle, tvCountMoney);
     }
 
     private void initView() {
@@ -62,19 +60,7 @@ public class ShoppingCartActivity extends Activity {
                 return true;
             }
         });
-        ivSelectAll.setOnClickListener(listener);
-        tvEditAll.setOnClickListener(listener);
     }
-
-    private View.OnClickListener listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-
-            }
-        }
-    };
-
 
     private void request() {
         String s1 = "279457f3-4692-43bf-9676-fa9ab9155c38";

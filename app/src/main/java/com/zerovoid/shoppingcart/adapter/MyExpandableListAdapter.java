@@ -1,18 +1,21 @@
 package com.zerovoid.shoppingcart.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zerovoid.common.util.ToastHelper;
 import com.zerovoid.shoppingcart.R;
 import com.zerovoid.shoppingcart.biz.ShoppingCartBiz;
 import com.zerovoid.shoppingcart.biz.ShoppingCartHttpBiz;
@@ -28,15 +31,22 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private Context mContext;
     private List<ShoppingCartBean> mListChild;
     private ImageView ivSelectAll;
-    boolean isSelectAll = false;
+    private TextView btnSettle;
+    private TextView tvCountMoney;
+    private boolean isSelectAll = false;
 
     /**
      * 将选择全部的图片视图传入Adapter（这种写法非常不好，增加了几个类之间的耦合度，应该写一个独立的UI组件）
      *
      * @param ivSelectAll
      */
-    public void setImageViewSelectAll(ImageView ivSelectAll) {
+    public void setImageViewSelectAll(ImageView ivSelectAll, TextView btnSettle, TextView tvCountMoney) {
         this.ivSelectAll = ivSelectAll;
+        this.btnSettle = btnSettle;
+        this.tvCountMoney = tvCountMoney;
+        this.ivSelectAll.setOnClickListener(listener);
+        this.tvCountMoney.setOnClickListener(listener);
+        this.btnSettle.setOnClickListener(listener);
     }
 
     public MyExpandableListAdapter(Context context, List<ShoppingCartBean> listChild) {
@@ -99,8 +109,15 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             holder = (GroupViewHolder) convertView.getTag();
         }
         ShoppingCartBiz.checkItem(mListChild.get(groupPosition).isGroupSelected(), holder.ivCheckGroup);
+        boolean isEditing = mListChild.get(groupPosition).isEditing();
+        if (isEditing) {
+            holder.tvEdit.setText("完成");
+        } else {
+            holder.tvEdit.setText("编辑");
+        }
         holder.ivCheckGroup.setTag(groupPosition);
         holder.ivCheckGroup.setOnClickListener(listener);
+        holder.tvEdit.setTag(groupPosition);
         holder.tvEdit.setOnClickListener(listener);
         holder.tvGroup.setText(mListChild.get(groupPosition).getMerchantName());
         return convertView;
@@ -116,16 +133,40 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             holder.ivCheckGood = (ImageView) convertView.findViewById(R.id.ivCheckGood);
             holder.rlEditStatus = (RelativeLayout) convertView.findViewById(R.id.rlEditStatus);
             holder.llGoodInfo = (LinearLayout) convertView.findViewById(R.id.llGoodInfo);
+            holder.ivAdd = (ImageView) convertView.findViewById(R.id.ivAdd);
+            holder.ivReduce = (ImageView) convertView.findViewById(R.id.ivReduce);
+            holder.tvGoodsParam = (TextView) convertView.findViewById(R.id.tvGoodsParam);
+            holder.tvPriceNew = (TextView) convertView.findViewById(R.id.tvPriceNew);
+            holder.tvPriceOld = (TextView) convertView.findViewById(R.id.tvPriceOld);
+            holder.tvPriceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tvNum = (TextView) convertView.findViewById(R.id.tvNum);
             convertView.setTag(holder);
         } else {
             holder = (ChildViewHolder) convertView.getTag();
         }
         ShoppingCartBean.Goods goods = mListChild.get(groupPosition).getGoods().get(childPosition);
         String text = goods.getGoodsName();
-        String itemStat = goods.getItemStat();
+        boolean isEditing = goods.isEditing();
+        String priceNew = "¥" + goods.getPrice();
+        String priceOld = "¥" + goods.getMkPrice();
+        String num = goods.getNumber();
+        String pdtDesc = goods.getPdtDesc();
         ShoppingCartBiz.checkItem(mListChild.get(groupPosition).getGoods().get(childPosition).isChildSelected(), holder.ivCheckGood);
         holder.ivCheckGood.setTag(groupPosition + "," + childPosition);
         holder.ivCheckGood.setOnClickListener(listener);
+        holder.ivAdd.setOnClickListener(listener);
+        holder.ivReduce.setOnClickListener(listener);
+        holder.tvPriceNew.setText(priceNew);
+        holder.tvPriceOld.setText(priceOld);
+        holder.tvNum.setText(num);
+        holder.tvGoodsParam.setText(pdtDesc);
+        if (isEditing) {
+            holder.llGoodInfo.setVisibility(View.GONE);
+            holder.rlEditStatus.setVisibility(View.VISIBLE);
+        } else {
+            holder.llGoodInfo.setVisibility(View.VISIBLE);
+            holder.rlEditStatus.setVisibility(View.GONE);
+        }
         Log.e("MyExpandableAdapter", "child text=" + text);
         holder.tvChild.setText(text);
         return convertView;
@@ -146,8 +187,16 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                         notifyDataSetChanged();
                     }
                     break;
-                case R.id.tvEdit:
+                case R.id.tvEdit://切换界面
+                    ToastHelper.getInstance()._toast("编辑");
+                    int groupPosition2 = Integer.parseInt(String.valueOf(view.getTag()));
 
+                    boolean isEditing = !(mListChild.get(groupPosition2).isEditing());
+                    mListChild.get(groupPosition2).setIsEditing(isEditing);
+                    for (int i = 0; i < mListChild.get(groupPosition2).getGoods().size(); i++) {
+                        mListChild.get(groupPosition2).getGoods().get(i).setIsEditing(isEditing);
+                    }
+                    notifyDataSetChanged();
                     break;
                 case R.id.ivCheckGroup:
                     int groupPosition = Integer.parseInt(String.valueOf(view.getTag()));
@@ -161,6 +210,18 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                     break;
                 case R.id.tvEditAll:
                     Toast.makeText(mContext, "编辑全部", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.ivAdd:
+                    ToastHelper.getInstance()._toast("增加");
+                    break;
+                case R.id.ivReduce:
+                    ToastHelper.getInstance()._toast("减少");
+                    break;
+                case R.id.btnSettle:
+                    ToastHelper.getInstance()._toast("结算");
+                    break;
+                case R.id.tvCountMoney:
+                    ToastHelper.getInstance()._toast("总价");
                     break;
             }
         }
@@ -179,8 +240,14 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
     class ChildViewHolder {
         TextView tvChild;
+        TextView tvGoodsParam;
         ImageView ivCheckGood;
         LinearLayout llGoodInfo;
         RelativeLayout rlEditStatus;
+        ImageView ivAdd;
+        ImageView ivReduce;
+        TextView tvPriceNew;
+        TextView tvPriceOld;
+        TextView tvNum;
     }
 }

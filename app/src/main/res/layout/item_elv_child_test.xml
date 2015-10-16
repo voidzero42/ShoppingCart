@@ -38,7 +38,7 @@
         android:layout_toRightOf="@+id/ivGoods"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         android:weightSum="3">
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_gravity="top"
             android:layout_marginTop="2dp"
             android:layout_weight="1"
-            android:text="商品"
+            android:text="商品名称"
             android:textColor="#003333"
             android:textSize="12sp"/>
 
@@ -59,7 +59,7 @@
             android:layout_marginTop="2dp"
             android:layout_weight="1"
             android:gravity="top"
-            android:text="商品名称"
+            android:text="商品规格"
             android:textColor="#7f7f7f"
             android:textSize="12sp"/>
 
@@ -69,7 +69,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tvPriceNew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -81,25 +81,25 @@
                 android:textSize="12sp"/>
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tvNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/textView2"
+                android:layout_alignTop="@+id/tvPriceNew"
                 android:gravity="bottom"
                 android:text="X 1"
                 android:textColor="#333333"
                 android:textSize="12sp"/>
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/tvPriceOld"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="5dp"
-                android:layout_toEndOf="@+id/textView2"
-                android:layout_toRightOf="@+id/textView2"
+                android:layout_toEndOf="@+id/tvPriceNew"
+                android:layout_toRightOf="@+id/tvPriceNew"
                 android:gravity="bottom"
                 android:text="原先价格"
                 android:textColor="#8e8e8e"
@@ -117,6 +117,7 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/ivGoods"
         android:orientation="horizontal"
+        android:visibility="gone"
         >
 
 
@@ -130,11 +131,11 @@
             >
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/ivAdd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/ic_shop"/>
+                android:src="@drawable/ic_add"/>
 
             <TextView
                 android:id="@+id/textView6"
@@ -145,11 +146,11 @@
                 android:text="1"/>
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/ivReduce"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/ic_shop"/>
+                android:src="@drawable/ic_reduce"/>
 
         </LinearLayout>
 
