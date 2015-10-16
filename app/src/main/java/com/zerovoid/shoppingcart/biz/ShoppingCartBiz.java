@@ -27,20 +27,66 @@ public class ShoppingCartBiz {
         return isSelectAll;
     }
 
-    public static List<ShoppingCartBean> selectOne(List<ShoppingCartBean> list, int groudPosition, int childPosition, ImageView ivCheck) {
-        boolean isSelected = !(list.get(groudPosition).getGoods().get(childPosition).isChildSelected());
-        checkItem(isSelected, ivCheck);
-        list.get(groudPosition).getGoods().get(childPosition).setIsChildSelected(isSelected);
-        return list;
+    /**
+     * 族内的所有组，是否都被选中，即全选
+     *
+     * @param list
+     * @return
+     */
+    private static boolean isSelectAllGroup(List<ShoppingCartBean> list) {
+        for (int i = 0; i < list.size(); i++) {
+            boolean isSelectGroup = list.get(i).isGroupSelected();
+            if (!isSelectGroup) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public static List<ShoppingCartBean> selectGroup(List<ShoppingCartBean> list, int groudPosition) {
+    /**
+     * 组内所有子选项是否全部被选中
+     *
+     * @param list
+     * @return
+     */
+    private static boolean isSelectAllChild(List<ShoppingCartBean.Goods> list) {
+        for (int i = 0; i < list.size(); i++) {
+            boolean isSelectGroup = list.get(i).isChildSelected();
+            if (!isSelectGroup) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 单选一个，需要判断整个组的标志，整个族的标志，是否被全选，取消，则
+     * 除了选择全部和选择单个可以单独设置背景色，其他都是通过改变值，然后notify；
+     *
+     * @param list
+     * @param groudPosition
+     * @param childPosition
+     * @return 是否选择全部
+     */
+    public static boolean selectOne(List<ShoppingCartBean> list, int groudPosition, int childPosition) {
+        boolean isSelectAll;
+        boolean isSelectedOne = !(list.get(groudPosition).getGoods().get(childPosition).isChildSelected());
+        list.get(groudPosition).getGoods().get(childPosition).setIsChildSelected(isSelectedOne);//单个图标的处理
+        boolean isSelectCurrentGroup = isSelectAllChild(list.get(groudPosition).getGoods());
+        list.get(groudPosition).setIsGroupSelected(isSelectCurrentGroup);//组图标的处理
+        isSelectAll = isSelectAllGroup(list);
+        return isSelectAll;
+    }
+
+    public static boolean selectGroup(List<ShoppingCartBean> list, int groudPosition) {
+        boolean isSelectAll;
         boolean isSelected = !(list.get(groudPosition).isGroupSelected());
         list.get(groudPosition).setIsGroupSelected(isSelected);
         for (int i = 0; i < list.get(groudPosition).getGoods().size(); i++) {
             list.get(groudPosition).getGoods().get(i).setIsChildSelected(isSelected);
         }
-        return list;
+        isSelectAll = isSelectAllGroup(list);
+        return isSelectAll;
     }
 
     /**

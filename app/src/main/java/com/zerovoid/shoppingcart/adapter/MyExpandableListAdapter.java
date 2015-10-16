@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zerovoid.shoppingcart.R;
 import com.zerovoid.shoppingcart.biz.ShoppingCartBiz;
@@ -26,6 +27,17 @@ import java.util.List;
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private Context mContext;
     private List<ShoppingCartBean> mListChild;
+    private ImageView ivSelectAll;
+    boolean isSelectAll = false;
+
+    /**
+     * 将选择全部的图片视图传入Adapter（这种写法非常不好，增加了几个类之间的耦合度，应该写一个独立的UI组件）
+     *
+     * @param ivSelectAll
+     */
+    public void setImageViewSelectAll(ImageView ivSelectAll) {
+        this.ivSelectAll = ivSelectAll;
+    }
 
     public MyExpandableListAdapter(Context context, List<ShoppingCartBean> listChild) {
         mContext = context;
@@ -127,7 +139,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                     String tag = String.valueOf(view.getTag());
                     if (tag.contains(",")) {
                         String s[] = tag.split(",");
-                        mListChild = ShoppingCartBiz.selectOne(mListChild, Integer.parseInt(s[0]), Integer.parseInt(s[1]), (ImageView) view);
+                        int groupPosition = Integer.parseInt(s[0]);
+                        int childPosition = Integer.parseInt(s[1]);
+                        isSelectAll = ShoppingCartBiz.selectOne(mListChild, groupPosition, childPosition);
+                        ShoppingCartBiz.checkItem(isSelectAll, ivSelectAll);
+                        notifyDataSetChanged();
                     }
                     break;
                 case R.id.tvEdit:
@@ -135,10 +151,16 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                     break;
                 case R.id.ivCheckGroup:
                     int groupPosition = Integer.parseInt(String.valueOf(view.getTag()));
-                    ShoppingCartBiz.selectGroup(mListChild, groupPosition);
-//                    mListChild.clear();
-//                    mListChild.addAll(list);
+                    isSelectAll = ShoppingCartBiz.selectGroup(mListChild, groupPosition);
+                    ShoppingCartBiz.checkItem(isSelectAll, ivSelectAll);
                     notifyDataSetChanged();
+                    break;
+                case R.id.ivSelectAll:
+                    isSelectAll = ShoppingCartBiz.selectAll(mListChild, isSelectAll, (ImageView) view);
+                    notifyDataSetChanged();
+                    break;
+                case R.id.tvEditAll:
+                    Toast.makeText(mContext, "编辑全部", Toast.LENGTH_SHORT).show();
                     break;
             }
         }

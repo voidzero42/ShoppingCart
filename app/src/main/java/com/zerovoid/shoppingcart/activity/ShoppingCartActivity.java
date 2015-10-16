@@ -50,6 +50,7 @@ public class ShoppingCartActivity extends Activity {
     private void setAdapter() {
         adapter = new MyExpandableListAdapter(this, mListChildGoods);
         expandableListView.setAdapter(adapter);
+        adapter.setImageViewSelectAll(ivSelectAll);
     }
 
     private void initView() {
@@ -65,19 +66,11 @@ public class ShoppingCartActivity extends Activity {
         tvEditAll.setOnClickListener(listener);
     }
 
-    boolean isSelectAll = false;
-
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.ivSelectAll:
-                    isSelectAll = ShoppingCartBiz.selectAll(mListChildGoods, isSelectAll, (ImageView) view);
-                    adapter.notifyDataSetChanged();
-                    break;
-                case R.id.tvEditAll:
-                    Toast.makeText(ShoppingCartActivity.this, "编辑全部", Toast.LENGTH_SHORT).show();
-                    break;
+
             }
         }
     };
