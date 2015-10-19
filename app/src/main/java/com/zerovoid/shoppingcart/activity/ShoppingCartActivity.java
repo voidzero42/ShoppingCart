@@ -2,6 +2,7 @@ package com.zerovoid.shoppingcart.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -11,11 +12,16 @@ import android.widget.TextView;
 import com.zerovoid.http.VollyHelperNew;
 import com.zerovoid.shoppingcart.R;
 import com.zerovoid.shoppingcart.adapter.MyExpandableListAdapter;
+import com.zerovoid.shoppingcart.biz.ShoppingCartBiz;
 import com.zerovoid.shoppingcart.biz.ShoppingCartHttpBiz;
 import com.zerovoid.shoppingcart.model.ShoppingCartBean;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +74,13 @@ public class ShoppingCartActivity extends Activity {
         ArrayList<String> list = new ArrayList<>();
         list.add(s1);
         list.add(s2);
+        try {
+            InputStream is = getAssets().open("firm_order.json");
+            String s=ShoppingCartHttpBiz.readJson(is);
+            Log.e("TAG","json="+s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ShoppingCartHttpBiz.requestOrderList(list, new VollyHelperNew.ResponseCallBack() {
             @Override
             public void handleResponse(JSONObject response, int errCode) {

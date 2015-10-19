@@ -1,9 +1,13 @@
 package com.zerovoid.shoppingcart.biz;
 
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.zerovoid.shoppingcart.R;
+import com.zerovoid.shoppingcart.model.LocalGoods;
 import com.zerovoid.shoppingcart.model.ShoppingCartBean;
+
+import org.kymjs.kjframe.KJDB;
 
 import java.util.List;
 
@@ -98,7 +102,7 @@ public class ShoppingCartBiz {
      */
     public static boolean checkItem(boolean isSelect, ImageView ivCheck) {
         if (isSelect) {
-            ivCheck.setImageResource(R.drawable.ic_checked);
+            ivCheck.setImageResource(R.drawable.ic_shop);
         } else {
             ivCheck.setImageResource(R.drawable.ic_uncheck);
         }
@@ -111,8 +115,40 @@ public class ShoppingCartBiz {
      * @return 是否添加成功
      */
     public static boolean addGoodToShoppingCart(String productID, String number) {
+        productID = "279457f3-4692-43bf-9676-fa9ab9155c38";
+        number = "3";
+//        KJDB db = KJDB.create();
+//        LocalGoods goods = new LocalGoods();
+//        goods.setGoodsNum(number);
+//        goods.setProductID(productID);
+//        db.save(goods);
 
         return false;
+    }
+
+    //优先完成两件事；
+    //添加到购物车、查询总量、结算值传递；
+
+    //使用SP来实现，增删改查，转List<Map>
+    private static void addSP(){
+        //format: v11,v12;v21,v22
+        //split , ListMap put;
+        //list.add
+        //for stringbuilder sp (common)
+    }
+    private static void delSP(){}
+    private static void updateSP(){}
+    private static void querySP(){}
+
+    public static void getGoodsCount() {
+//        KJDB db = KJDB.create();
+        // 这里是查找全部数据的
+//        List<LocalGoods> list = db.findAll(LocalGoods.class);
+//        StringBuilder str = new StringBuilder();
+//        for (LocalGoods u : list) {
+//            str.append(u.getProductID()).append("----");
+//        }
+//        Log.e("TAG", str.toString());
     }
 
 }
