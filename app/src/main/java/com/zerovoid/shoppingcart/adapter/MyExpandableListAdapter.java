@@ -15,12 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zerovoid.common.util.DecimalUtil;
 import com.zerovoid.common.util.ToastHelper;
 import com.zerovoid.shoppingcart.R;
 import com.zerovoid.shoppingcart.biz.ShoppingCartBiz;
 import com.zerovoid.shoppingcart.biz.ShoppingCartHttpBiz;
 import com.zerovoid.shoppingcart.model.ShoppingCartBean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,20 +35,57 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private ImageView ivSelectAll;
     private TextView btnSettle;
     private TextView tvCountMoney;
+    private TextView tvTitle;
     private boolean isSelectAll = false;
+    private int goodsCount = 0;
+    private String selectedCount = "0";
+    private String selectedMoney = "0";
 
     /**
      * 将选择全部的图片视图传入Adapter（这种写法非常不好，增加了几个类之间的耦合度，应该写一个独立的UI组件）
      *
      * @param ivSelectAll
      */
-    public void setImageViewSelectAll(ImageView ivSelectAll, TextView btnSettle, TextView tvCountMoney) {
+    public void setImageViewSelectAll(ImageView ivSelectAll, TextView btnSettle, TextView tvCountMoney, TextView tvTitle) {
         this.ivSelectAll = ivSelectAll;
         this.btnSettle = btnSettle;
         this.tvCountMoney = tvCountMoney;
+        this.tvTitle = tvTitle;
         this.ivSelectAll.setOnClickListener(listener);
         this.tvCountMoney.setOnClickListener(listener);
         this.btnSettle.setOnClickListener(listener);
+        setTitle();
+        setSettle();
+    }
+
+    private void setSettle() {
+        selectedCount = "0";
+        selectedMoney = "0";
+        for (int i = 0; i < mListChild.size(); i++) {
+            for (int j = 0; j < mListChild.get(i).getGoods().size(); j++) {
+                boolean isSelectd = mListChild.get(i).getGoods().get(j).isChildSelected();
+                if (isSelectd) {
+                    String price = mListChild.get(i).getGoods().get(j).getPrice();
+                    String num = mListChild.get(i).getGoods().get(j).getNumber();
+                    if (num.contains("X") || num.contains("x")) {
+                        num = num.substring(1);
+                    }
+                    String countMoney = DecimalUtil.multiply(price, num);
+                    selectedMoney = DecimalUtil.add(selectedMoney, countMoney);
+                    selectedCount = DecimalUtil.add(selectedCount, "1");
+                }
+            }
+        }
+        String countMoney = String.format(mContext.getResources().getString(R.string.count_money), selectedMoney + "");
+        String countGoods = String.format(mContext.getResources().getString(R.string.count_goods), selectedCount + "");
+        tvCountMoney.setText(countMoney);
+        btnSettle.setText(countGoods);
+    }
+
+    private void setTitle() {
+        goodsCount = ShoppingCartBiz.getGoodsCount();
+        String title = String.format(mContext.getResources().getString(R.string.shop_title), goodsCount + "");
+        tvTitle.setText(title);
     }
 
     public MyExpandableListAdapter(Context context, List<ShoppingCartBean> listChild) {
@@ -64,7 +103,6 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         return mListChild.size();
     }
 
-    //mListChild.get(i).getGoods().size()
     @Override
     public int getChildrenCount(int i) {
         return mListChild.get(i).getGoods().size();
@@ -135,11 +173,13 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             holder.llGoodInfo = (LinearLayout) convertView.findViewById(R.id.llGoodInfo);
             holder.ivAdd = (ImageView) convertView.findViewById(R.id.ivAdd);
             holder.ivReduce = (ImageView) convertView.findViewById(R.id.ivReduce);
+            holder.tvDel = (TextView) convertView.findViewById(R.id.tvDel);
             holder.tvGoodsParam = (TextView) convertView.findViewById(R.id.tvGoodsParam);
             holder.tvPriceNew = (TextView) convertView.findViewById(R.id.tvPriceNew);
             holder.tvPriceOld = (TextView) convertView.findViewById(R.id.tvPriceOld);
             holder.tvPriceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             holder.tvNum = (TextView) convertView.findViewById(R.id.tvNum);
+            holder.tvNum2 = (TextView) convertView.findViewById(R.id.tvNum2);
             convertView.setTag(holder);
         } else {
             holder = (ChildViewHolder) convertView.getTag();
@@ -154,11 +194,16 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         ShoppingCartBiz.checkItem(mListChild.get(groupPosition).getGoods().get(childPosition).isChildSelected(), holder.ivCheckGood);
         holder.ivCheckGood.setTag(groupPosition + "," + childPosition);
         holder.ivCheckGood.setOnClickListener(listener);
+        holder.ivAdd.setTag(goods);
+        holder.ivReduce.setTag(goods);
+        holder.tvDel.setTag(groupPosition + "," + childPosition);
+        holder.tvDel.setOnClickListener(listener);
         holder.ivAdd.setOnClickListener(listener);
         holder.ivReduce.setOnClickListener(listener);
         holder.tvPriceNew.setText(priceNew);
         holder.tvPriceOld.setText(priceOld);
         holder.tvNum.setText(num);
+        holder.tvNum2.setText(num);
         holder.tvGoodsParam.setText(pdtDesc);
         if (isEditing) {
             holder.llGoodInfo.setVisibility(View.GONE);
@@ -184,6 +229,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                         int childPosition = Integer.parseInt(s[1]);
                         isSelectAll = ShoppingCartBiz.selectOne(mListChild, groupPosition, childPosition);
                         ShoppingCartBiz.checkItem(isSelectAll, ivSelectAll);
+                        setSettle();
                         notifyDataSetChanged();
                     }
                     break;
@@ -193,6 +239,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
                     boolean isEditing = !(mListChild.get(groupPosition2).isEditing());
                     mListChild.get(groupPosition2).setIsEditing(isEditing);
+                    if (!isEditing) {
+
+                    }
                     for (int i = 0; i < mListChild.get(groupPosition2).getGoods().size(); i++) {
                         mListChild.get(groupPosition2).getGoods().get(i).setIsEditing(isEditing);
                     }
@@ -202,23 +251,43 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                     int groupPosition = Integer.parseInt(String.valueOf(view.getTag()));
                     isSelectAll = ShoppingCartBiz.selectGroup(mListChild, groupPosition);
                     ShoppingCartBiz.checkItem(isSelectAll, ivSelectAll);
+                    setSettle();
                     notifyDataSetChanged();
                     break;
                 case R.id.ivSelectAll:
                     isSelectAll = ShoppingCartBiz.selectAll(mListChild, isSelectAll, (ImageView) view);
+                    setSettle();
                     notifyDataSetChanged();
                     break;
                 case R.id.tvEditAll:
                     Toast.makeText(mContext, "编辑全部", Toast.LENGTH_SHORT).show();
                     break;
+                case R.id.tvDel:
+                    String tag2 = String.valueOf(view.getTag());
+                    if (tag2.contains(",")) {
+                        String s[] = tag2.split(",");
+                        int groupPosition3 = Integer.parseInt(s[0]);
+                        int childPosition = Integer.parseInt(s[1]);
+                        ShoppingCartBiz.delGood(mListChild.get(groupPosition3).getGoods().get(childPosition).getProductID());
+                        mListChild.get(groupPosition3).getGoods().remove(childPosition);
+                        if (mListChild.get(groupPosition3).getGoods().size() == 0) {
+                            mListChild.remove(groupPosition3);
+                        }
+                        notifyDataSetChanged();
+                        setTitle();
+                        setSettle();
+                    }
+                    break;
                 case R.id.ivAdd:
-                    ToastHelper.getInstance()._toast("增加");
+                    ShoppingCartBiz.calcuGoodsNum(true, (ShoppingCartBean.Goods) view.getTag(), ((TextView) (((View) (view.getParent())).findViewById(R.id.tvNum2))));
+                    setSettle();
                     break;
                 case R.id.ivReduce:
-                    ToastHelper.getInstance()._toast("减少");
+                    ShoppingCartBiz.calcuGoodsNum(false, (ShoppingCartBean.Goods) view.getTag(), ((TextView) (((View) (view.getParent())).findViewById(R.id.tvNum2))));
+                    setSettle();
                     break;
                 case R.id.btnSettle:
-                    ToastHelper.getInstance()._toast("结算");
+                    ToastHelper.getInstance()._toast("结算跳转");
                     break;
                 case R.id.tvCountMoney:
                     ToastHelper.getInstance()._toast("总价");
@@ -246,8 +315,10 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         RelativeLayout rlEditStatus;
         ImageView ivAdd;
         ImageView ivReduce;
+        TextView tvDel;
         TextView tvPriceNew;
         TextView tvPriceOld;
         TextView tvNum;
+        TextView tvNum2;
     }
 }

@@ -13,17 +13,17 @@
         android:background="#FFF">
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="160dp"
             android:layout_height="50dp"
             android:layout_centerInParent="true"
             android:layout_marginLeft="100dp"
             android:gravity="center_horizontal|center_vertical"
-            android:text="购物车(77)"
+            android:text="@string/shop_title"
             android:textColor="#003333"
             android:textSize="15sp"/>
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tvEditAll"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -34,7 +34,8 @@
             android:paddingRight="10dp"
             android:text="全部编辑"
             android:textColor="#003333"
-            android:textSize="13sp"/>
+            android:textSize="13sp"
+            android:visibility="gone"/>
 
         <ImageView
             android:layout_width="fill_parent"
@@ -103,7 +104,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:gravity="right"
-                    android:text="合计：￥0.0"
+                    android:text="@string/count_money"
                     android:textColor="#ff2600"
                     android:textSize="13sp"/>
 
@@ -131,7 +132,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:paddingTop="5dp"
-                android:text="结算(0)"
+                android:text="@string/count_goods"
                 android:textColor="#FFF"
                 android:textSize="14sp"/>
         </LinearLayout>

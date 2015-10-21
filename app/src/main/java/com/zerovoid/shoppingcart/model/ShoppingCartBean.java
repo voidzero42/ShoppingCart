@@ -14,7 +14,7 @@ public class ShoppingCartBean {
 
     /** 是否处于编辑状态 */
     private boolean isEditing;
-
+    /** 组是否被选中 */
     private boolean isGroupSelected;
 
     /** 店铺名称 */
@@ -93,10 +93,20 @@ public class ShoppingCartBean {
         private String price;
         /** 是否失效 */
         private String itemStat;
-
+        /** 是否是编辑状态 */
         private boolean isEditing;
-
+        /** 是否被选中 */
         private boolean isChildSelected;
+        /** 规格ID */
+        private String productID;
+
+        public String getProductID() {
+            return productID;
+        }
+
+        public void setProductID(String productID) {
+            this.productID = productID;
+        }
 
         public boolean isEditing() {
             return isEditing;

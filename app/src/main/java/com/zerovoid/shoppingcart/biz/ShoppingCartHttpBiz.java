@@ -98,7 +98,7 @@ public class ShoppingCartHttpBiz extends CommonBiz {
      */
     public static final String URL_DISPATCH_CONFIRM_ORDER = "http://developer.17orange.com:29088/mpc/index.php/orangelife/service/orderInfo/firmOrder";
 
-    public static void requestOrderList(ArrayList<String> listProductIDs, VollyHelperNew.ResponseCallBack callback) {
+    public static void requestOrderList(List<String> listProductIDs, VollyHelperNew.ResponseCallBack callback) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("goodsIDs", map);
         JSONObject jo = new JSONObject();
@@ -116,9 +116,7 @@ public class ShoppingCartHttpBiz extends CommonBiz {
             e.printStackTrace();
         }
 
-//        callback.handleResponse(null, 0);
-
-//        VollyHelperNew.getInstance().sendRequestWithCallback(URL_DISPATCH_CONFIRM_ORDER, Request.Method.POST, null, jo, callback, null, null, null);
+        VollyHelperNew.getInstance().sendRequestWithCallback(URL_DISPATCH_CONFIRM_ORDER, Request.Method.POST, null, jo, callback, null, null, null);
     }
 
     public static List<ShoppingCartBean> handleOrderList(JSONObject response, int errCode) {

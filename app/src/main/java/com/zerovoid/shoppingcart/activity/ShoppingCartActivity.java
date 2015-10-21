@@ -9,6 +9,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.zerovoid.common.config.SharePreferenceUtilNew;
 import com.zerovoid.http.VollyHelperNew;
 import com.zerovoid.shoppingcart.R;
 import com.zerovoid.shoppingcart.adapter.MyExpandableListAdapter;
@@ -37,6 +38,8 @@ public class ShoppingCartActivity extends Activity {
     TextView btnSettle;
     @Bind(R.id.tvCountMoney)
     TextView tvCountMoney;
+    @Bind(R.id.tvTitle)
+    TextView tvTitle;
     private List<ShoppingCartBean> mListChildGoods = new ArrayList<>();
     private MyExpandableListAdapter adapter;
 
@@ -50,11 +53,19 @@ public class ShoppingCartActivity extends Activity {
         setAdapter();
     }
 
+    private void testAddGood() {
+        SharePreferenceUtilNew.getInstance().setGoodsInfo("");
+        ShoppingCartBiz.saveGoodNum("279457f3-4692-43bf-9676-fa9ab9155c38", "6");
+        ShoppingCartBiz.saveGoodNum("95fbe11d-7303-4b9f-8ca4-537d06ce2f8a", "8");
+        ShoppingCartBiz.saveGoodNum("8c6e52fb-d57c-45ee-8f05-50905138801b", "9");
+        ShoppingCartBiz.saveGoodNum("7d6e52fb-d57c-45ee-8f05-50905138801d", "3");
+
+    }
+
     private void setAdapter() {
         adapter = new MyExpandableListAdapter(this, mListChildGoods);
         expandableListView.setAdapter(adapter);
-//        adapter.setImageViewSelectAll(ivSelectAll);
-        adapter.setImageViewSelectAll(ivSelectAll, btnSettle, tvCountMoney);
+        adapter.setImageViewSelectAll(ivSelectAll, btnSettle, tvCountMoney, tvTitle);
     }
 
     private void initView() {
@@ -69,22 +80,20 @@ public class ShoppingCartActivity extends Activity {
     }
 
     private void request() {
-        String s1 = "279457f3-4692-43bf-9676-fa9ab9155c38";
-        String s2 = "95fbe11d-7303-4b9f-8ca4-537d06ce2f8a";
-        ArrayList<String> list = new ArrayList<>();
-        list.add(s1);
-        list.add(s2);
-        try {
-            InputStream is = getAssets().open("firm_order.json");
-            String s=ShoppingCartHttpBiz.readJson(is);
-            Log.e("TAG","json="+s);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        testAddGood();
+        List<String> list = ShoppingCartBiz.getAllProductID();
+//        try {
+//            InputStream is = getAssets().open("firm_order.json");
+//            String s = ShoppingCartHttpBiz.readJson(is);
+//            Log.e("TAG", "json=" + s);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         ShoppingCartHttpBiz.requestOrderList(list, new VollyHelperNew.ResponseCallBack() {
             @Override
             public void handleResponse(JSONObject response, int errCode) {
                 mListChildGoods = ShoppingCartHttpBiz.handleOrderList(response, errCode);
+                ShoppingCartBiz.updateShopList(mListChildGoods);
                 updateListView();
             }
         });

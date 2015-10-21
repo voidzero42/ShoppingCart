@@ -2,4 +2,7 @@
     <string name="app_name">仿淘宝购物车</string>
     <string name="title_activity_expandable">ExpandableActivity</string>
     <string name="edit">编辑</string>
+    <string name="shop_title">购物车(%s)</string>
+    <string name="count_money">合计：￥%s</string>
+    <string name="count_goods">结算（%s）</string>
 </resources>
