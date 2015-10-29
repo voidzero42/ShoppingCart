@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.zerovoid.common.config.SharePreferenceUtilNew;
 import com.zerovoid.common.util.ToastHelper;
+import com.zerovoid.db.DBHelper;
 import com.zerovoid.http.VollyHelperNew;
 
 
@@ -18,6 +19,11 @@ public class InitApplication extends Application {
         initVollyHelper();
         initSharePreferenceUtil();
         initToastHelper();
+        initDBHelper();
+    }
+
+    private void initDBHelper() {
+        DBHelper.init(getApplicationContext());
     }
 
     public static InitApplication getInstance() {

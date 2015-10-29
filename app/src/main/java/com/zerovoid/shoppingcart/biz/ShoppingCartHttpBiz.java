@@ -1,5 +1,7 @@
 package com.zerovoid.shoppingcart.biz;
 
+import android.content.Context;
+
 import com.android.volley.Request;
 import com.google.gson.reflect.TypeToken;
 import com.zerovoid.common.biz.CommonBiz;
@@ -97,6 +99,19 @@ public class ShoppingCartHttpBiz extends CommonBiz {
      * 购物车确认订单
      */
     public static final String URL_DISPATCH_CONFIRM_ORDER = "http://developer.17orange.com:29088/mpc/index.php/orangelife/service/orderInfo/firmOrder";
+
+    public static void requestOrderList(Context context, VollyHelperNew.ResponseCallBack callback) {
+        try {
+            InputStream is = context.getAssets().open("firm_order.json");
+            String s = ShoppingCartHttpBiz.readJson(is);
+            callback.handleResponse(new JSONObject(s), 0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public static void requestOrderList(List<String> listProductIDs, VollyHelperNew.ResponseCallBack callback) {
         Map<String, Object> map = new HashMap<String, Object>();

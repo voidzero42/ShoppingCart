@@ -5,39 +5,105 @@
     {
       "goods": [
         {
+          "productID": "279457f3-4692-43bf-9676-fa9ab9155c38",
           "itemStat": "1",
           "price": "11",
           "pdtDesc": "1kg\/袋",
           "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
           "mkPrice": "80",
           "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
-          "goodsName": "手动阀"
-        }
-      ],
-      "merchantName": "烤鱼",
-      "dispatch": [
-        {
-          "fee": 20,
-          "dispatchType": "1",
-          "dispatchName": "邮寄",
-          "dispatchID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
-          "limitFee": 100
+          "goodsName": "魅族4 Pro"
         },
         {
-          "fee": 0,
-          "dispatchType": "2",
-          "dispatchName": "到店提货",
-          "dispatchID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
-          "limitFee": 0
-        },
-        {
-          "fee": 10,
-          "dispatchType": "3",
-          "dispatchName": "送货上门",
-          "dispatchID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
-          "limitFee": 50
+          "productID": "95fbe11d-7303-4b9f-8ca4-537d06ce2f8a",
+          "itemStat": "1",
+          "price": "11",
+          "pdtDesc": "1kg\/袋",
+          "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
+          "mkPrice": "80",
+          "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "goodsName": "魅蓝Note2"
         }
       ],
+      "merchantName": "魅族科技",
+      "merchantID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514"
+    },
+    {
+      "goods": [
+        {
+          "productID": "279457f3-4692-43bf-9676-fa9ab9155c38",
+          "itemStat": "1",
+          "price": "11",
+          "pdtDesc": "1kg\/袋",
+          "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
+          "mkPrice": "80",
+          "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "goodsName": "红米Note2"
+        },
+        {
+          "productID": "95fbe11d-7303-4b9f-8ca4-537d06ce2f8a",
+          "itemStat": "1",
+          "price": "11",
+          "pdtDesc": "1kg\/袋",
+          "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
+          "mkPrice": "80",
+          "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "goodsName": "小米5"
+        }
+      ],
+      "merchantName": "小米科技",
+      "merchantID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514"
+    },
+    {
+      "goods": [
+        {
+          "productID": "279457f3-4692-43bf-9676-fa9ab9155c38",
+          "itemStat": "1",
+          "price": "11",
+          "pdtDesc": "1kg\/袋",
+          "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
+          "mkPrice": "80",
+          "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "goodsName": "华为荣耀3C"
+        },
+        {
+          "productID": "95fbe11d-7303-4b9f-8ca4-537d06ce2f8a",
+          "itemStat": "1",
+          "price": "11",
+          "pdtDesc": "1kg\/袋",
+          "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
+          "mkPrice": "80",
+          "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "goodsName": "华为荣耀4X"
+        }
+      ],
+      "merchantName": "华为荣耀商城",
+      "merchantID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514"
+    },
+    {
+      "goods": [
+        {
+          "productID": "279457f3-4692-43bf-9676-fa9ab9155c38",
+          "itemStat": "1",
+          "price": "11",
+          "pdtDesc": "1kg\/袋",
+          "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
+          "mkPrice": "80",
+          "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "goodsName": "iPhone 6s"
+        },
+        {
+          "productID": "95fbe11d-7303-4b9f-8ca4-537d06ce2f8a",
+          "itemStat": "1",
+          "price": "11",
+          "pdtDesc": "1kg\/袋",
+          "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
+          "mkPrice": "80",
+          "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "goodsName": "Macbook Pro"
+        }
+      ],
+      "merchantName": "美国苹果科技有限公司",
       "merchantID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514"
     }
   ]

@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.zerovoid.common.config.SharePreferenceUtilNew;
 import com.zerovoid.shoppingcart.R;
+import com.zerovoid.shoppingcart.dao.ShoppingCartDao;
 import com.zerovoid.shoppingcart.model.ShoppingCartBean;
 
 import java.util.ArrayList;
@@ -118,14 +119,15 @@ public class ShoppingCartBiz {
      * @param num       此商品的数量
      */
     public static void saveGoodNum(String productID, String num) {
-        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
-        StringBuilder sb = new StringBuilder();
-        sb.append(goodsInfo);
-        if (!"".equals(goodsInfo)) {
-            sb.append(";");
-        }
-        String newInfo = sb.append(productID).append(",").append(num).toString();
-        SharePreferenceUtilNew.getInstance().setGoodsInfo(newInfo);
+        ShoppingCartDao.getInstance().saveShoppingInfo(productID, num);
+//        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
+//        StringBuilder sb = new StringBuilder();
+//        sb.append(goodsInfo);
+//        if (!"".equals(goodsInfo)) {
+//            sb.append(";");
+//        }
+//        String newInfo = sb.append(productID).append(",").append(num).toString();
+//        SharePreferenceUtilNew.getInstance().setGoodsInfo(newInfo);
     }
 
     /**
@@ -134,32 +136,33 @@ public class ShoppingCartBiz {
      * @param productID 规格ID
      */
     public static void delGood(String productID) {
-        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
-        if ("".equals(goodsInfo)) {
-            return;
-        }
-        String[] s1 = goodsInfo.split(";");
-        int delPosition = -1;
-        for (int i = 0; i < s1.length; i++) {
-            String s2[] = s1[i].split(",");
-            if (s2[0].equals(productID)) {
-                delPosition = i;
-                break;
-            }
-        }
-        if (delPosition != -1) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < s1.length; i++) {
-                if (i == delPosition) {
-                    continue;
-                }
-                sb.append(s1[i]);
-                if (i != s1.length - 1) {
-                    sb.append(";");
-                }
-            }
-            SharePreferenceUtilNew.getInstance().setGoodsInfo(sb.toString());
-        }
+        ShoppingCartDao.getInstance().deleteShoppingInfo(productID);
+//        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
+//        if ("".equals(goodsInfo)) {
+//            return;
+//        }
+//        String[] s1 = goodsInfo.split(";");
+//        int delPosition = -1;
+//        for (int i = 0; i < s1.length; i++) {
+//            String s2[] = s1[i].split(",");
+//            if (s2[0].equals(productID)) {
+//                delPosition = i;
+//                break;
+//            }
+//        }
+//        if (delPosition != -1) {
+//            StringBuilder sb = new StringBuilder();
+//            for (int i = 0; i < s1.length; i++) {
+//                if (i == delPosition) {
+//                    continue;
+//                }
+//                sb.append(s1[i]);
+//                if (i != s1.length - 1) {
+//                    sb.append(";");
+//                }
+//            }
+//            SharePreferenceUtilNew.getInstance().setGoodsInfo(sb.toString());
+//        }
     }
 
     public static void calcuGoodsNum(boolean isPlus, ShoppingCartBean.Goods goods, TextView tvNum) {
@@ -190,26 +193,27 @@ public class ShoppingCartBiz {
      * @param num
      */
     public static void updateSP(String productID, String num) {
-        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
-        if ("".equals(goodsInfo)) {
-            return;
-        }
-        String[] s1 = goodsInfo.split(";");
-        for (int i = 0; i < s1.length; i++) {
-            String s2[] = s1[i].split(",");
-            if (s2[0].equals(productID)) {
-                s1[i] = s2[0] + "," + num;
-                break;
-            }
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < s1.length; i++) {
-            sb.append(s1[i]);
-            if (i != s1.length - 1) {
-                sb.append(";");
-            }
-        }
-        SharePreferenceUtilNew.getInstance().setGoodsInfo(sb.toString());
+        ShoppingCartDao.getInstance().updateGoodsNum(productID, num);
+//        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
+//        if ("".equals(goodsInfo)) {
+//            return;
+//        }
+//        String[] s1 = goodsInfo.split(";");
+//        for (int i = 0; i < s1.length; i++) {
+//            String s2[] = s1[i].split(",");
+//            if (s2[0].equals(productID)) {
+//                s1[i] = s2[0] + "," + num;
+//                break;
+//            }
+//        }
+//        StringBuilder sb = new StringBuilder();
+//        for (int i = 0; i < s1.length; i++) {
+//            sb.append(s1[i]);
+//            if (i != s1.length - 1) {
+//                sb.append(";");
+//            }
+//        }
+//        SharePreferenceUtilNew.getInstance().setGoodsInfo(sb.toString());
     }
 
     /**
@@ -218,43 +222,51 @@ public class ShoppingCartBiz {
      * @return
      */
     public static int getGoodsCount() {
-        int count = 0;
-        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
-        if (!"".equals(goodsInfo)) {
-            String[] s1 = goodsInfo.split(";");
-            count = s1.length;
-        }
-        return count;
+        return ShoppingCartDao.getInstance().getGoodsCount();
+//        int count = 0;
+//        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
+//        if (!"".equals(goodsInfo)) {
+//            String[] s1 = goodsInfo.split(";");
+//            count = s1.length;
+//        }
+//        return count;
     }
 
     public static List<String> getAllProductID() {
-        List<String> list = new ArrayList<>();
-        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
-        String[] s1 = goodsInfo.split(";");
-        if (!"".equals(goodsInfo)) {
-            for (int i = 0; i < s1.length; i++) {
-                String s2[] = s1[i].split(",");
-                list.add(s2[0]);
-            }
-        }
-        return list;
+//        List<String> list = new ArrayList<>();
+//        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
+//        String[] s1 = goodsInfo.split(";");
+//        if (!"".equals(goodsInfo)) {
+//            for (int i = 0; i < s1.length; i++) {
+//                String s2[] = s1[i].split(",");
+//                list.add(s2[0]);
+//            }
+//        }
+        return ShoppingCartDao.getInstance().getProductList();
+//        return list;
     }
 
     public static void updateShopList(List<ShoppingCartBean> list) {
-        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
-        String[] s1 = goodsInfo.split(";");
-
+        if (list == null) {
+            return;
+        }
         for (int i = 0; i < list.size(); i++) {
-            ArrayList<ShoppingCartBean.Goods> list2 = list.get(i).getGoods();
+            ShoppingCartBean scb = list.get(i);
+            if (scb == null) {
+                continue;
+            }
+            ArrayList<ShoppingCartBean.Goods> list2 = scb.getGoods();
+            if (list2 == null) {
+                continue;
+            }
             for (int j = 0; j < list2.size(); j++) {
-                String productID = list2.get(j).getProductID();
-                for (int m = 0; m < s1.length; m++) {
-                    String s2[] = s1[m].split(",");
-                    if (productID.equals(s2[0])) {
-                        list.get(i).getGoods().get(j).setNumber("X" + s2[1]);
-                        break;
-                    }
+                ShoppingCartBean.Goods goods = list2.get(j);
+                if (goods == null) {
+                    continue;
                 }
+                String productID = goods.getProductID();
+                String num = ShoppingCartDao.getInstance().getNumByProductID(productID);
+                list.get(i).getGoods().get(j).setNumber(num);
             }
         }
     }

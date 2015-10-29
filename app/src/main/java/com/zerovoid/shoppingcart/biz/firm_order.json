@@ -5,13 +5,44 @@
     {
       "goods": [
         {
+          "productID": "279457f3-4692-43bf-9676-fa9ab9155c38",
           "itemStat": "1",
           "price": "11",
           "pdtDesc": "1kg\/袋",
           "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
           "mkPrice": "80",
           "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
-          "goodsName": "手动阀"
+          "goodsName": "手动阀1"
+        },
+        {
+          "productID": "95fbe11d-7303-4b9f-8ca4-537d06ce2f8a",
+          "itemStat": "1",
+          "price": "11",
+          "pdtDesc": "1kg\/袋",
+          "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
+          "mkPrice": "80",
+          "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "goodsName": "手动阀2"
+        },
+        {
+          "productID": "8c6e52fb-d57c-45ee-8f05-50905138801b",
+          "itemStat": "1",
+          "price": "11",
+          "pdtDesc": "1kg\/袋",
+          "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
+          "mkPrice": "80",
+          "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "goodsName": "手动阀3"
+        },
+        {
+          "productID": "7d6e52fb-d57c-45ee-8f05-50905138801d",
+          "itemStat": "1",
+          "price": "11",
+          "pdtDesc": "1kg\/袋",
+          "goodsLogo": "http:\/\/...\/web_1427876141910914.jpg",
+          "mkPrice": "80",
+          "goodsID": "d10568c2-bb6a-4c6c-995b-477bb2fc0514",
+          "goodsName": "手动阀4"
         }
       ],
       "merchantName": "烤鱼",

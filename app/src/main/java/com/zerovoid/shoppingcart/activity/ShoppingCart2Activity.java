@@ -1,11 +1,8 @@
 package com.zerovoid.shoppingcart.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,17 +17,13 @@ import com.zerovoid.shoppingcart.model.ShoppingCartBean;
 
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ShoppingCartActivity extends Activity {
+public class ShoppingCart2Activity extends Activity {
     @Bind(R.id.expandableListView)
     ExpandableListView expandableListView;
     @Bind(R.id.ivSelectAll)
@@ -49,9 +42,9 @@ public class ShoppingCartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
         ButterKnife.bind(this);
-        setAdapter();
         request();
         initView();
+        setAdapter();
     }
 
     private void testAddGood() {
@@ -69,15 +62,6 @@ public class ShoppingCartActivity extends Activity {
         adapter.setImageViewSelectAll(ivSelectAll, btnSettle, tvCountMoney, tvTitle);
     }
 
-    private List<String> listGroup = new ArrayList<>();
-
-    private void depart(List<ShoppingCartBean> list) {
-        for (int i = 0; i < list.size(); i++) {
-            String mname = list.get(i).getMerchantName();
-            listGroup.add(mname);
-        }
-    }
-
     private void initView() {
         expandableListView.setGroupIndicator(null);
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -91,8 +75,15 @@ public class ShoppingCartActivity extends Activity {
 
     private void request() {
         testAddGood();
-//        List<String> list = ShoppingCartBiz.getAllProductID();
-        ShoppingCartHttpBiz.requestOrderList(this, new VollyHelperNew.ResponseCallBack() {
+        List<String> list = ShoppingCartBiz.getAllProductID();
+//        try {
+//            InputStream is = getAssets().open("firm_order.json");
+//            String s = ShoppingCartHttpBiz.readJson(is);
+//            Log.e("TAG", "json=" + s);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        ShoppingCartHttpBiz.requestOrderList(list, new VollyHelperNew.ResponseCallBack() {
             @Override
             public void handleResponse(JSONObject response, int errCode) {
                 mListChildGoods = ShoppingCartHttpBiz.handleOrderList(response, errCode);
@@ -100,19 +91,9 @@ public class ShoppingCartActivity extends Activity {
                 updateListView();
             }
         });
-//        ShoppingCartHttpBiz.requestOrderList(list, new VollyHelperNew.ResponseCallBack() {
-//            @Override
-//            public void handleResponse(JSONObject response, int errCode) {
-//                mListChildGoods = ShoppingCartHttpBiz.handleOrderList(response, errCode);
-//                ShoppingCartBiz.updateShopList(mListChildGoods);
-//                updateListView();
-//            }
-//        });
     }
 
     private void updateListView() {
-        depart(mListChildGoods);
-        adapter.setGroupList(listGroup);
         adapter.setList(mListChildGoods);
         adapter.notifyDataSetChanged();
         expandAllGroup();

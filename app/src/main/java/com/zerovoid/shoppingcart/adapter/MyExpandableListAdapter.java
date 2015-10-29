@@ -98,9 +98,15 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         mListChild.addAll(mListChildGoods);
     }
 
+    private List<String> listGroup = new ArrayList<>();
+
+    public void setGroupList(List<String> list) {
+        this.listGroup = list;
+    }
+
     @Override
     public int getGroupCount() {
-        return mListChild.size();
+        return listGroup.size();
     }
 
     @Override
@@ -153,14 +159,27 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         } else {
             holder.tvEdit.setText("编辑");
         }
-        holder.ivCheckGroup.setTag(groupPosition);
-        holder.ivCheckGroup.setOnClickListener(listener);
+//        holder.ivCheckGroup.setTag(groupPosition);
+//        holder.ivCheckGroup.setOnClickListener(listener);
         holder.tvEdit.setTag(groupPosition);
         holder.tvEdit.setOnClickListener(listener);
-        holder.tvGroup.setText(mListChild.get(groupPosition).getMerchantName());
+//        holder.tvGroup.setText(mListChild.get(groupPosition).getMerchantName());
+        holder.tvGroup.setText(listGroup.get(groupPosition));
         return convertView;
     }
 
+    /**
+     * ---------Dragon be here !-------------------------
+     * <p/>
+     * —— ——
+     *
+     * @param groupPosition
+     * @param childPosition
+     * @param isLastChild
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildViewHolder holder = null;
@@ -272,6 +291,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                         mListChild.get(groupPosition3).getGoods().remove(childPosition);
                         if (mListChild.get(groupPosition3).getGoods().size() == 0) {
                             mListChild.remove(groupPosition3);
+                            listGroup.remove(groupPosition3);
                         }
                         notifyDataSetChanged();
                         setTitle();

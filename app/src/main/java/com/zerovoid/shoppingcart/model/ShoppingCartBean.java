@@ -7,10 +7,15 @@ import java.util.ArrayList;
  */
 public class ShoppingCartBean {
 
-    public static final String EDIT_STATUS_TRUE = "0";
+    /** 失效 */
+    public static final String GOOD_INVALID = "0";
 
-    public static final String EDIT_STATUS_FALSE = "1";
+    public static final String GOOD_VALID = "1";
 
+    /** 购物车商品数量 */
+    public static final String KEY_NUM = "num";
+    /** 购物车规格ID */
+    public static final String KEY_PRODUCT_ID = "product_id";
 
     /** 是否处于编辑状态 */
     private boolean isEditing;
@@ -21,11 +26,40 @@ public class ShoppingCartBean {
     private String merchantName;
 
     /** 店铺ID */
-    private String merchantID;
+    private String merID;
+
+    /** 是否失效列表 */
+    private boolean isInvalidList;
+
+    private boolean isAllGoodsInvalid;
 
     private ArrayList<Goods> goods;
 
     private ArrayList<Dispatch> dispatch;
+
+    public boolean isAllGoodsInvalid() {
+        return isAllGoodsInvalid;
+    }
+
+    public void setIsAllGoodsInvalid(boolean isAllGoodsInvalid) {
+        this.isAllGoodsInvalid = isAllGoodsInvalid;
+    }
+
+    public boolean isInvalidList() {
+        return isInvalidList;
+    }
+
+    public void setIsInvalidList(boolean isInvalidList) {
+        this.isInvalidList = isInvalidList;
+    }
+
+    public String getMerID() {
+        return merID;
+    }
+
+    public void setMerID(String merID) {
+        this.merID = merID;
+    }
 
     public boolean isEditing() {
         return isEditing;
@@ -63,22 +97,14 @@ public class ShoppingCartBean {
         this.merchantName = merchantName;
     }
 
-    public String getMerchantID() {
-        return merchantID;
-    }
-
-    public void setMerchantID(String merchantID) {
-        this.merchantID = merchantID;
-    }
-
     public void setIsEditing(boolean isEditing) {
         this.isEditing = isEditing;
     }
 
-    /** 商品类 */
+    /** 商品类，本地用变量应该加上标志 ' _local ' */
     public static class Goods {
         /** 数量 */
-        private String number;
+        private String number="1";
         /** 商品ID */
         private String goodsID;
         /** 商品名称 */
@@ -91,14 +117,66 @@ public class ShoppingCartBean {
         private String mkPrice;
         /** 价格，当前价格 */
         private String price;
-        /** 是否失效 */
-        private String itemStat;
+        /** 是否失效,0删除(失效),1正常 */
+        private String status;
         /** 是否是编辑状态 */
         private boolean isEditing;
         /** 是否被选中 */
         private boolean isChildSelected;
         /** 规格ID */
         private String productID;
+
+        /***/
+        private String sellPloyID;
+
+        /** 是否是失效列表的子项 */
+        private boolean isInvalidItem;
+
+        /** 是否属于 */
+        private boolean isBelongInvalidList;
+
+        /** 临时解决方案，为了避免尾部重绘两次，增加一个虚ITEM，不显示，但是没有子项的组项，会有一条黑线，所以需要做特殊处理 */
+        private boolean isLastTempItem;
+
+        public boolean isLastTempItem() {
+            return isLastTempItem;
+        }
+
+        public void setIsLastTempItem(boolean isLastTempItem) {
+            this.isLastTempItem = isLastTempItem;
+        }
+
+        public boolean isBelongInvalidList() {
+            return isBelongInvalidList;
+        }
+
+        public void setIsBelongInvalidList(boolean isBelongInvalidList) {
+            this.isBelongInvalidList = isBelongInvalidList;
+        }
+
+        public boolean isInvalidItem() {
+            return isInvalidItem;
+        }
+
+        public void setIsInvalidItem(boolean isInvalidItem) {
+            this.isInvalidItem = isInvalidItem;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getSellPloyID() {
+            return sellPloyID;
+        }
+
+        public void setSellPloyID(String sellPloyID) {
+            this.sellPloyID = sellPloyID;
+        }
 
         public String getProductID() {
             return productID;
@@ -172,14 +250,6 @@ public class ShoppingCartBean {
             this.price = price;
         }
 
-        public String getItemStat() {
-            return itemStat;
-        }
-
-        public void setItemStat(String itemStat) {
-            this.itemStat = itemStat;
-        }
-
         public String getNumber() {
             return number;
         }
@@ -187,6 +257,7 @@ public class ShoppingCartBean {
         public void setNumber(String number) {
             this.number = number;
         }
+
     }
 
     public static class Dispatch {
