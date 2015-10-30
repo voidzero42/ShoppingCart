@@ -42,7 +42,8 @@ public class ShoppingCartActivity extends Activity {
     @Bind(R.id.tvTitle)
     TextView tvTitle;
     private List<ShoppingCartBean> mListChildGoods = new ArrayList<>();
-    private MyExpandableListAdapter adapter;
+        private MyExpandableListAdapter adapter;
+//    InfoDetailsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,26 +56,34 @@ public class ShoppingCartActivity extends Activity {
     }
 
     private void testAddGood() {
-        SharePreferenceUtilNew.getInstance().setGoodsInfo("");
+//        SharePreferenceUtilNew.getInstance().setGoodsInfo("");
         ShoppingCartBiz.saveGoodNum("279457f3-4692-43bf-9676-fa9ab9155c38", "6");
         ShoppingCartBiz.saveGoodNum("95fbe11d-7303-4b9f-8ca4-537d06ce2f8a", "8");
         ShoppingCartBiz.saveGoodNum("8c6e52fb-d57c-45ee-8f05-50905138801b", "9");
         ShoppingCartBiz.saveGoodNum("7d6e52fb-d57c-45ee-8f05-50905138801d", "3");
-
     }
 
+
     private void setAdapter() {
-        adapter = new MyExpandableListAdapter(this, mListChildGoods);
+        adapter = new MyExpandableListAdapter(this, listGroup, listChild);
+//        adapter = new InfoDetailsAdapter(this, listGroup, listChild);
         expandableListView.setAdapter(adapter);
-        adapter.setImageViewSelectAll(ivSelectAll, btnSettle, tvCountMoney, tvTitle);
+//        adapter.setImageViewSelectAll(ivSelectAll, btnSettle, tvCountMoney, tvTitle);
     }
 
     private List<String> listGroup = new ArrayList<>();
+    private List<List<String>> listChild = new ArrayList<>();
 
     private void depart(List<ShoppingCartBean> list) {
         for (int i = 0; i < list.size(); i++) {
             String mname = list.get(i).getMerchantName();
             listGroup.add(mname);
+            List<String> ls = new ArrayList<>();
+            for (int j = 0; j < list.get(i).getGoods().size(); j++) {
+                ls.add(list.get(i).getGoods().get(j).getGoodsName());
+
+            }
+            listChild.add(ls);
         }
     }
 
@@ -112,8 +121,11 @@ public class ShoppingCartActivity extends Activity {
 
     private void updateListView() {
         depart(mListChildGoods);
+//        InfoDetailsAdapter ida = new InfoDetailsAdapter(this, listGroup, listChild);
+//        expandableListView.setAdapter(ida);
         adapter.setGroupList(listGroup);
-        adapter.setList(mListChildGoods);
+        adapter.setChildList(listChild);
+//        adapter.setList(mListChildGoods);
         adapter.notifyDataSetChanged();
         expandAllGroup();
     }

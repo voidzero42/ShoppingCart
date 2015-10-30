@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.zerovoid.shoppingcart"
-          xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.INTERNET" />
+<manifest
+    package="com.zerovoid.shoppingcart"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:allowBackup="true"
         android:name="com.zerovoid.application.InitApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -17,6 +19,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.ExpandableListViewTest">
+
+        </activity>
     </application>
 
 </manifest>
