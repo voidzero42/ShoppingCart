@@ -5,7 +5,5 @@ package com.zerovoid.shoppingcart.activity;
  */
 public class SplashActivity {
 
-    /** 商品ID */
-    private String goodsID;
 
 }

@@ -1,74 +1,78 @@
 package com.zerovoid.shoppingcart.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Paint;
-import android.text.Layout;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.zerovoid.common.util.DecimalUtil;
-import com.zerovoid.common.util.ToastHelper;
+import com.zerovoid.common.view.UIAlertView;
 import com.zerovoid.shoppingcart.R;
 import com.zerovoid.shoppingcart.biz.ShoppingCartBiz;
-import com.zerovoid.shoppingcart.biz.ShoppingCartHttpBiz;
 import com.zerovoid.shoppingcart.model.ShoppingCartBean;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * * ---------神兽保佑 !---------
+ * <p/>
+ * ... ┏┓        ┏┓
+ * ..┏┛┻━━━━┛┻┓
+ * .┃              ┃
+ * ┃      ━       ┃
+ * ┃  ┳┛  ┗┳   ┃
+ * ┃              ┃
+ * ┃      ┻      ┃
+ * ┃              ┃
+ * ┗━┓      ┏━┛
+ * ... ┃      ┃
+ * .. ┃      ┃
+ * . ┃      ┗━━━┓
+ * ┃              ┣┓
+ * ┃             ┏┛
+ * ┗┓┓┏━┳┓┏┛
+ * . ┃┫┫  ┃┫┫
+ * .┗┻┛  ┗┻┛
+ * <p/>
  * Created by 绯若虚无 on 2015/10/10.
  */
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private Activity mContext;
-    private List<String> listGroup;
-    private List<List<String>> listChild;
+    private List<ShoppingCartBean> mListGoods = new ArrayList<>();
 
-    public MyExpandableListAdapter(Activity context, List<String> listGroup, List<List<String>> listChild2) {
+    public MyExpandableListAdapter(Activity context) {
         mContext = context;
-        this.listGroup = listGroup;
-        this.listChild = listChild2;
     }
 
-
-    public void setGroupList(List<String> list) {
-        this.listGroup = list;
-    }
-
-    public void setChildList(List<List<String>> list) {
-        this.listChild = list;
+    public void setList(List<ShoppingCartBean> mListGoods) {
+        this.mListGoods = mListGoods;
     }
 
     @Override
     public int getGroupCount() {
-        return listGroup.size();
+        return mListGoods.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        Log.e("Adapter", "child count = " + listChild.get(groupPosition).size());
-        return listChild.get(groupPosition).size();
+        return mListGoods.get(groupPosition).getGoods().size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return listGroup.get(groupPosition);
+        return mListGoods.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return listChild.get(groupPosition).get(childPosition);
+        return mListGoods.get(groupPosition).getGoods().get(childPosition);
     }
 
     @Override
@@ -97,31 +101,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (GroupViewHolder) convertView.getTag();
         }
-        holder.tvGroup.setText(listGroup.get(groupPosition));
+        holder.tvGroup.setText(mListGoods.get(groupPosition).getMerchantName());
         return convertView;
     }
 
     /**
-     * ---------Dragon be here !-------------------------
-     * <p/>
-     * .. ┏┓        ┏┓
-     * ┏┛┻━━━━┛┻┓
-     * ┃              ┃
-     * ┃      ━       ┃
-     * ┃  ┳┛  ┗┳   ┃
-     * ┃              ┃
-     * ┃      ┻      ┃
-     * ┃              ┃
-     * ┗━┓      ┏━┛
-     * ┃      ┃
-     * ┃      ┃
-     * ┃      ┗━━━┓
-     * ┃              ┣┓
-     * ┃             ┏┛
-     * ┗┓┓┏━┳┓┏┛
-     * ┃┫┫  ┃┫┫
-     * ┗┻┛  ┗┻┛
-     *
      * @param groupPosition
      * @param childPosition
      * @param isLastChild
@@ -130,7 +114,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
      * @return
      */
     @Override
-    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildViewHolder holder = null;
         if (convertView == null) {
             holder = new ChildViewHolder();
@@ -141,20 +125,10 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (ChildViewHolder) convertView.getTag();
         }
-        holder.tvDel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listChild.get(groupPosition).remove(childPosition);
-                if (listChild.get(groupPosition).size() == 0) {
-                    listChild.remove(groupPosition);
-                    listGroup.remove(groupPosition);
-                }
-                notifyDataSetChanged();
-            }
-        });
-
-        Log.e("MyExpandableAdapter", "child text=" + listChild.get(groupPosition).get(childPosition));
-        holder.tvChild.setText(listChild.get(groupPosition).get(childPosition));
+        holder.tvDel.setTag(groupPosition + "," + childPosition);
+        holder.tvDel.setOnClickListener(listener);
+        String goodName = mListGoods.get(groupPosition).getGoods().get(childPosition).getGoodsName();
+        holder.tvChild.setText(goodName);
         return convertView;
     }
 
@@ -163,13 +137,74 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+    View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.tvDel:
+                    String tagPos = String.valueOf(v.getTag());
+                    if (tagPos.contains(",")) {
+                        String s[] = tagPos.split(",");
+                        int groupPosition = Integer.parseInt(s[0]);
+                        int childPosition = Integer.parseInt(s[1]);
+                        showDelDialog(groupPosition, childPosition);
+                    }
+                    break;
+            }
+        }
+    };
+
+    private void showDelDialog(final int groupPosition, final int childPosition) {
+        final UIAlertView dialog = new UIAlertView(mContext, "温馨提示", "确认删除该商品吗?",
+                "取消", "确定");
+        dialog.show();
+
+        dialog.setClicklistener(new UIAlertView.ClickListenerInterface() {
+
+                                    @Override
+                                    public void doLeft() {
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void doRight() {
+                                        ShoppingCartBiz.delGood(mListGoods.get(groupPosition).getGoods().get(childPosition).getProductID());
+                                        delGoods(groupPosition, childPosition);
+//                    setTitle();
+//                    setSettle();
+                                        notifyDataSetChanged();
+                                        dialog.dismiss();
+                                    }
+                                }
+        );
+    }
+
+    private void delGoods(int groupPosition, int childPosition) {
+        mListGoods.get(groupPosition).getGoods().remove(childPosition);
+        if (mListGoods.get(groupPosition).getGoods().size() == 0) {
+            mListGoods.remove(groupPosition);
+        }
+        notifyDataSetChanged();
+    }
+
     class GroupViewHolder {
         TextView tvGroup;
+        TextView tvEdit;
+        ImageView ivCheckGroup;
     }
 
     class ChildViewHolder {
         TextView tvChild;
+        TextView tvGoodsParam;
+        ImageView ivCheckGood;
+        LinearLayout llGoodInfo;
+        RelativeLayout rlEditStatus;
+        ImageView ivAdd;
+        ImageView ivReduce;
         TextView tvDel;
-
+        TextView tvPriceNew;
+        TextView tvPriceOld;
+        TextView tvNum;
+        TextView tvNum2;
     }
 }

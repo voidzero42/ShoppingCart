@@ -16,8 +16,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * 不使用RecycleView
  * Created by 绯若虚无 on 2015/10/10.
  */
+@Deprecated
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
 
     private Context mContext;

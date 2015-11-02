@@ -359,8 +359,7 @@ public class MyExpandableListAdapter_bak extends BaseExpandableListAdapter {
 
     class GroupViewHolder {
         TextView tvGroup;
-        TextView tvEdit;
-        ImageView ivCheckGroup;
+
     }
 
     class ChildViewHolder {
