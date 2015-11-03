@@ -99,6 +99,12 @@ public class ShoppingCartDao {
         close();
     }
 
+    public void delAllGoods() {
+        db = DBHelper.getInstance().getReadableDatabase();
+        db.delete(DBHelper.TB_SHOPPING_CART, null, null);
+        close();
+    }
+
     public void deleteGoodList(List<String> goodList) {
         if (goodList == null) {
             return;

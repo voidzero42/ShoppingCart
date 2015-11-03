@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#FFF">
+
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="100dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/shop_title"
+        android:textColor="#003333"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/tvEditAll"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal|center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="全部编辑"
+        android:textColor="#003333"
+        android:textSize="13sp"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="#CCC"/>
+</RelativeLayout>

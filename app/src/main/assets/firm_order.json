@@ -31,7 +31,7 @@
     {
       "goods": [
         {
-          "productID": "279457f3-4692-43bf-9676-fa9ab9155c38",
+          "productID": "8c6e52fb-d57c-45ee-8f05-50905138801b",
           "itemStat": "1",
           "price": "11",
           "pdtDesc": "1kg\/袋",
@@ -41,7 +41,7 @@
           "goodsName": "红米Note2"
         },
         {
-          "productID": "95fbe11d-7303-4b9f-8ca4-537d06ce2f8a",
+          "productID": "7d6e52fb-d57c-45ee-8f05-50905138801d",
           "itemStat": "1",
           "price": "11",
           "pdtDesc": "1kg\/袋",
@@ -57,7 +57,7 @@
     {
       "goods": [
         {
-          "productID": "279457f3-4692-43bf-9676-fa9ab9155c38",
+          "productID": "7d6e52fb-d57c-45ee-8f05-50905138801e",
           "itemStat": "1",
           "price": "11",
           "pdtDesc": "1kg\/袋",
@@ -67,7 +67,7 @@
           "goodsName": "华为荣耀3C"
         },
         {
-          "productID": "95fbe11d-7303-4b9f-8ca4-537d06ce2f8a",
+          "productID": "7d6e52fb-d57c-45ee-8f05-50905138801f",
           "itemStat": "1",
           "price": "11",
           "pdtDesc": "1kg\/袋",
@@ -83,7 +83,7 @@
     {
       "goods": [
         {
-          "productID": "279457f3-4692-43bf-9676-fa9ab9155c38",
+          "productID": "7d6e52fb-d57c-45ee-8f05-50905138801g",
           "itemStat": "1",
           "price": "11",
           "pdtDesc": "1kg\/袋",
@@ -93,7 +93,7 @@
           "goodsName": "iPhone 6s"
         },
         {
-          "productID": "95fbe11d-7303-4b9f-8ca4-537d06ce2f8a",
+          "productID": "7d6e52fb-d57c-45ee-8f05-50905138801h",
           "itemStat": "1",
           "price": "11",
           "pdtDesc": "1kg\/袋",

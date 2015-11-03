@@ -14,7 +14,7 @@ import com.zerovoid.shoppingcart.model.ShoppingCartBean;
 public class DBHelper extends SQLiteOpenHelper {
 
     /** 数据库名称常量 */
-    public static final String DATABASE_NAME = "orangelife_resident.db3";
+    public static final String DATABASE_NAME = "shopping_cart.db3";
     /** 数据库版本常量 */
     private static final int DATABASE_VERSION = 3;
     /** 购物车表 */

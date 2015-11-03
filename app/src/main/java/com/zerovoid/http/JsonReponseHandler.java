@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * JSON处理类
+ * JSON处理类，只是用来特殊处理自己服务端的数据，非通用的
  *
  * @author Administrator
  */

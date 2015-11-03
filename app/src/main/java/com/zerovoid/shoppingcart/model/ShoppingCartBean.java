@@ -3,6 +3,8 @@ package com.zerovoid.shoppingcart.model;
 import java.util.ArrayList;
 
 /**
+ * 购物车的数据结构，非通用，根据自己需要修改
+ * <p/>
  * Created by 绯若虚无（@link https://github.com/joefei） on 2015/10/12.
  */
 public class ShoppingCartBean {
@@ -104,7 +106,7 @@ public class ShoppingCartBean {
     /** 商品类，本地用变量应该加上标志 ' _local ' */
     public static class Goods {
         /** 数量 */
-        private String number="1";
+        private String number = "1";
         /** 商品ID */
         private String goodsID;
         /** 商品名称 */

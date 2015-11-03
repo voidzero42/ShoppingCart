@@ -14,8 +14,8 @@ public class TokenUtils {
 		HashMap<String, String> headers = new HashMap<String, String>();
 		headers.put("Accept", "application/json");
 		headers.put("Content-Type", "application/json; charset=UTF-8");
-		headers.put("accessToken", SharePreferenceUtilNew.getInstance()
-				.getAccessToken());
+//		headers.put("accessToken", SharePreferenceUtilNew.getInstance()
+//				.getAccessToken());
 //		headers.put("accessToken","94b9261a-b0d5-4456-beff-e17def1b12bb");
 		return headers;
 	}

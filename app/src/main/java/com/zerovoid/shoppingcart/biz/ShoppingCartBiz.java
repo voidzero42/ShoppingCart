@@ -4,6 +4,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zerovoid.common.config.SharePreferenceUtilNew;
+import com.zerovoid.common.util.DecimalUtil;
 import com.zerovoid.shoppingcart.R;
 import com.zerovoid.shoppingcart.dao.ShoppingCartDao;
 import com.zerovoid.shoppingcart.model.ShoppingCartBean;
@@ -109,25 +110,43 @@ public class ShoppingCartBiz {
         return isSelect;
     }
 
-
-    //TODO 添加到购物车、查询总量、结算值传递；
+    /**=====================上面是界面改动部分，下面是数据变化部分=========================*/
 
     /**
-     * 添加某商品的数量到数据库
+     * 获取结算信息，肯定需要获取总价和数量，但是数据结构改变了，这里处理也要变；
+     *
+     * @return 0=选中的商品数量；1=选中的商品总价
+     */
+    public static String[] getShoppingCount(List<ShoppingCartBean> listGoods) {
+        String[] infos = new String[2];
+        String selectedCount = "0";
+        String selectedMoney = "0";
+        for (int i = 0; i < listGoods.size(); i++) {
+            for (int j = 0; j < listGoods.get(i).getGoods().size(); j++) {
+                boolean isSelectd = listGoods.get(i).getGoods().get(j).isChildSelected();
+                if (isSelectd) {
+                    String price = listGoods.get(i).getGoods().get(j).getPrice();
+                    String num = listGoods.get(i).getGoods().get(j).getNumber();
+                    String countMoney = DecimalUtil.multiply(price, num);
+                    selectedMoney = DecimalUtil.add(selectedMoney, countMoney);
+                    selectedCount = DecimalUtil.add(selectedCount, "1");
+                }
+            }
+        }
+        infos[0] = selectedCount;
+        infos[1] = selectedMoney;
+        return infos;
+    }
+
+
+    /**
+     * 添加某商品的数量到数据库（非通用部分，都有这个动作，但是到底存什么，未可知）
      *
      * @param productID 此商品的规格ID
      * @param num       此商品的数量
      */
-    public static void saveGoodNum(String productID, String num) {
+    public static void addGoodToCart(String productID, String num) {
         ShoppingCartDao.getInstance().saveShoppingInfo(productID, num);
-//        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
-//        StringBuilder sb = new StringBuilder();
-//        sb.append(goodsInfo);
-//        if (!"".equals(goodsInfo)) {
-//            sb.append(";");
-//        }
-//        String newInfo = sb.append(productID).append(",").append(num).toString();
-//        SharePreferenceUtilNew.getInstance().setGoodsInfo(newInfo);
     }
 
     /**
@@ -137,53 +156,31 @@ public class ShoppingCartBiz {
      */
     public static void delGood(String productID) {
         ShoppingCartDao.getInstance().deleteShoppingInfo(productID);
-//        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
-//        if ("".equals(goodsInfo)) {
-//            return;
-//        }
-//        String[] s1 = goodsInfo.split(";");
-//        int delPosition = -1;
-//        for (int i = 0; i < s1.length; i++) {
-//            String s2[] = s1[i].split(",");
-//            if (s2[0].equals(productID)) {
-//                delPosition = i;
-//                break;
-//            }
-//        }
-//        if (delPosition != -1) {
-//            StringBuilder sb = new StringBuilder();
-//            for (int i = 0; i < s1.length; i++) {
-//                if (i == delPosition) {
-//                    continue;
-//                }
-//                sb.append(s1[i]);
-//                if (i != s1.length - 1) {
-//                    sb.append(";");
-//                }
-//            }
-//            SharePreferenceUtilNew.getInstance().setGoodsInfo(sb.toString());
-//        }
     }
 
-    public static void calcuGoodsNum(boolean isPlus, ShoppingCartBean.Goods goods, TextView tvNum) {
+    /** 删除全部商品 */
+    public static void delAllGoods() {
+        ShoppingCartDao.getInstance().delAllGoods();
+    }
+
+    /** 增减数量，操作通用，数据不通用 */
+    public static void addOrReduceGoodsNum(boolean isPlus, ShoppingCartBean.Goods goods, TextView tvNum) {
         String currentNum = goods.getNumber().trim();
-        if (currentNum.contains("X") || currentNum.contains("x")) {
-            currentNum = currentNum.substring(1);
-        }
-        String num = "0";
+        String num = "1";
         if (isPlus) {
             num = String.valueOf(Integer.parseInt(currentNum) + 1);
         } else {
             int i = Integer.parseInt(currentNum);
-            if (i > 0) {
+            if (i > 1) {
                 num = String.valueOf(i - 1);
+            } else {
+                num = "1";
             }
         }
         String productID = goods.getProductID();
-        tvNum.setText("X" + num);
-        goods.setNumber("X" + num);
-        //存到SP里的，没有X
-        updateSP(productID, num);
+        tvNum.setText(num);
+        goods.setNumber(num);
+        updateGoodsNumber(productID, num);
     }
 
     /**
@@ -192,60 +189,31 @@ public class ShoppingCartBiz {
      * @param productID
      * @param num
      */
-    public static void updateSP(String productID, String num) {
+    public static void updateGoodsNumber(String productID, String num) {
         ShoppingCartDao.getInstance().updateGoodsNum(productID, num);
-//        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
-//        if ("".equals(goodsInfo)) {
-//            return;
-//        }
-//        String[] s1 = goodsInfo.split(";");
-//        for (int i = 0; i < s1.length; i++) {
-//            String s2[] = s1[i].split(",");
-//            if (s2[0].equals(productID)) {
-//                s1[i] = s2[0] + "," + num;
-//                break;
-//            }
-//        }
-//        StringBuilder sb = new StringBuilder();
-//        for (int i = 0; i < s1.length; i++) {
-//            sb.append(s1[i]);
-//            if (i != s1.length - 1) {
-//                sb.append(";");
-//            }
-//        }
-//        SharePreferenceUtilNew.getInstance().setGoodsInfo(sb.toString());
     }
 
     /**
      * 查询购物车商品总数量
+     * <p/>
+     * 统一使用该接口，而就行是通过何种方式获取数据，数据库、SP、文件、网络，都可以
      *
      * @return
      */
     public static int getGoodsCount() {
         return ShoppingCartDao.getInstance().getGoodsCount();
-//        int count = 0;
-//        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
-//        if (!"".equals(goodsInfo)) {
-//            String[] s1 = goodsInfo.split(";");
-//            count = s1.length;
-//        }
-//        return count;
     }
 
+    /**
+     * 获取所有商品ID，用于向服务器请求数据（非通用部分）
+     *
+     * @return
+     */
     public static List<String> getAllProductID() {
-//        List<String> list = new ArrayList<>();
-//        String goodsInfo = SharePreferenceUtilNew.getInstance().getGoodsInfo();
-//        String[] s1 = goodsInfo.split(";");
-//        if (!"".equals(goodsInfo)) {
-//            for (int i = 0; i < s1.length; i++) {
-//                String s2[] = s1[i].split(",");
-//                list.add(s2[0]);
-//            }
-//        }
         return ShoppingCartDao.getInstance().getProductList();
-//        return list;
     }
 
+    /** 由于这次服务端没有保存商品数量，需要此步骤来处理数量（非通用部分） */
     public static void updateShopList(List<ShoppingCartBean> list) {
         if (list == null) {
             return;
