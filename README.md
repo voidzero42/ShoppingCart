@@ -3,6 +3,7 @@
 ######版权：极速网与安卓编程吧联合出品，绯若虚无编写；
 ######博客地址：http://blog.csdn.net/freegf
 ######安卓编程吧：http://tieba.baidu.com/f?kw=%E5%AE%89%E5%8D%93%E7%BC%96%E7%A8%8B
+######极速网：http://www.mjisu.com/
 ######QQ群链接：【Google for Android】：http://jq.qq.com/?_wv=1027&k=jhWlDu
 
 
