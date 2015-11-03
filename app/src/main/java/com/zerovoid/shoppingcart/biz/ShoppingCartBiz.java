@@ -139,6 +139,14 @@ public class ShoppingCartBiz {
     }
 
 
+    public static boolean hasSelectedGoods(List<ShoppingCartBean> listGoods) {
+        String count = getShoppingCount(listGoods)[0];
+        if ("0".equals(count)) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * 添加某商品的数量到数据库（非通用部分，都有这个动作，但是到底存什么，未可知）
      *

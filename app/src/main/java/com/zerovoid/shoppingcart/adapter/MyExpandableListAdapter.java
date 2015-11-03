@@ -215,7 +215,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 case R.id.tvEditAll:
                     break;
                 case R.id.btnSettle:
-                    ToastHelper.getInstance()._toast("结算跳转");
+                    if (ShoppingCartBiz.hasSelectedGoods(mListGoods)) {
+                        ToastHelper.getInstance()._toast("结算跳转");
+                    } else {
+                        ToastHelper.getInstance()._toast("亲，先选择商品！");
+                    }
                     //group
                     break;
                 case R.id.tvEdit://切换界面，属于特殊处理，假如没打算切换界面，则不需要这块代码
