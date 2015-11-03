@@ -130,6 +130,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         holder.ivCheckGroup.setOnClickListener(listener);
         holder.tvEdit.setTag(groupPosition);
         holder.tvEdit.setOnClickListener(listener);
+        holder.tvGroup.setOnClickListener(listener);
         return convertView;
     }
 
@@ -194,6 +195,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         holder.tvDel.setOnClickListener(listener);
         holder.ivAdd.setOnClickListener(listener);
         holder.ivReduce.setOnClickListener(listener);
+        holder.llGoodInfo.setOnClickListener(listener);
         return convertView;
     }
 
@@ -267,6 +269,12 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 case R.id.ivReduce:
                     ShoppingCartBiz.addOrReduceGoodsNum(false, (ShoppingCartBean.Goods) v.getTag(), ((TextView) (((View) (v.getParent())).findViewById(R.id.tvNum2))));
                     setSettleInfo();
+                    break;
+                case R.id.llGoodInfo:
+                    ToastHelper.getInstance()._toast("商品详情，暂未实现");
+                    break;
+                case R.id.tvShopNameGroup:
+                    ToastHelper.getInstance()._toast("商铺详情，暂未实现");
                     break;
             }
         }
