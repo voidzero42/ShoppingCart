@@ -1,6 +1,7 @@
 package com.zerovoid.shoppingcart.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
@@ -11,7 +12,7 @@ import com.zerovoid.shoppingcart.R;
 
 /**
  * 闪屏
- * Created by 绯若虚无 on 2015/10/12.
+ * Created by 绯若虚无（https://github.com/joefei） on 2015/10/12.
  */
 public class SplashActivity extends Activity {
     @Override
@@ -29,6 +30,8 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 SplashActivity.this.finish(); // 结束启动动画界面
+                Intent intent = new Intent(SplashActivity.this, ShoppingCartActivity.class);
+                startActivity(intent);
             }
         }, 3000); // 启动动画持续3秒钟*/
     }
