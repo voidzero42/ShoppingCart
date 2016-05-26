@@ -1,6 +1,6 @@
 # ShoppingCart
 ##主题：仿淘宝的购物车
-######个人网址：www.zerovoid.cc（主机暂未到位）
+######个人网址：www.zerovoid.cc   （主机暂未到位）
 ######版权：安卓编程吧，绯若虚无编写；（有问题可以到贴吧发帖）
 ######博客地址：http://blog.csdn.net/freegf
 ######安卓编程吧：http://tieba.baidu.com/f?kw=%E5%AE%89%E5%8D%93%E7%BC%96%E7%A8%8B
