@@ -8,6 +8,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.zerovoid.shoppingcart.R;
+import com.zerovoid.whmshoppintcart.WhmShoppintCartActivity;
+import com.zerovoid.whmshoppintcart.WhmShoppintCartAdapter;
 
 
 /**
@@ -30,7 +32,7 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 SplashActivity.this.finish(); // 结束启动动画界面
-                Intent intent = new Intent(SplashActivity.this, ShoppingCartActivity.class);
+                Intent intent = new Intent(SplashActivity.this, WhmShoppintCartActivity.class);
                 startActivity(intent);
             }
         }, 3000); // 启动动画持续3秒钟*/

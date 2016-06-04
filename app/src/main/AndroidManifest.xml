@@ -18,9 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ShoppingCartActivity">
+        <activity android:name=".activity.ShoppingCartActivity"/>
+        <activity android:name="com.zerovoid.whmshoppintcart.WhmShoppintCartActivity"/>
 
-        </activity>
+
 
     </application>
 
