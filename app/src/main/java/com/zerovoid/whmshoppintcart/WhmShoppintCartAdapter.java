@@ -2,11 +2,16 @@ package com.zerovoid.whmshoppintcart;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.zerovoid.common.view.grouplist.ChildData;
 import com.zerovoid.common.view.grouplist.GroupData;
 import com.zerovoid.common.view.grouplist.GroupListAdapter;
 import com.zerovoid.shoppingcart.R;
+
+import org.w3c.dom.Text;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,22 +27,61 @@ public class WhmShoppintCartAdapter extends GroupListAdapter<Merchant,Product> {
 
     @Override
     protected View onCreateGroupView(ViewGroup parent, int groupViewType) {
-        return parent.inflate(parent.getContext(), R.layout.item_elv_group_test,null);
+        View view = parent.inflate(parent.getContext(), R.layout.item_elv_group_whm,null);
+        ViewHolderGroup holder = new ViewHolderGroup();
+        holder.mSelected = (CheckBox) view.findViewById(R.id.check_group);
+        view.setTag(holder);
+        return view;
     }
 
     @Override
-    protected void onBindGroupView(ViewGroup parent, int groupViewType, View groupView, GroupData<Merchant,Product> group) {
-
+    protected void onBindGroupView(ViewGroup parent, int groupViewType, final View groupView, final GroupData<Merchant,Product> group) {
+        ViewHolderGroup holderGroup = (ViewHolderGroup)groupView.getTag();
+//        holderGroup.mSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(buttonView.isFocused()){
+//                    onGroupSelectedChanged(group,isChecked);
+//                }
+//            }
+//        });
+        holderGroup.mSelected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onGroupSelectedChanged(group,((CheckBox)v).isChecked());
+            }
+        });
+        holderGroup.mSelected.setChecked(group.isSelected());
     }
 
     @Override
     protected View onCreateChildView(ViewGroup parent, int childViewType, boolean isLasChild) {
-        return parent.inflate(parent.getContext(), R.layout.item_elv_child_test,null);
+        View view = parent.inflate(parent.getContext(), R.layout.item_elv_child_whm,null);
+        ViewHolderChild holder = new ViewHolderChild();
+        holder.mSelected = (CheckBox) view.findViewById(R.id.check_child);
+        holder.mGroupTailInfo = (TextView)view.findViewById(R.id.group_tail_info);
+        view.setTag(holder);
+        return view;
     }
 
     @Override
-    protected View onBindChildView(ViewGroup parent, int childViewType, boolean isLastChild, View childView, ChildData<Product> child) {
-        return null;
+    protected void onBindChildView(ViewGroup parent, int childViewType, boolean isLastChild, View childView, final ChildData<Product> child) {
+        ViewHolderChild holder = (ViewHolderChild)childView.getTag();
+        holder.mSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                onChildSelectedChanged(child,isChecked);
+            }
+        });
+        holder.mSelected.setChecked(child.isSelected());
+
+        holder.mGroupTailInfo.setVisibility(isLastChild? View.VISIBLE:View.GONE);
+        GroupData<?,Product> groupData = child.getGroupData();
+        int selectedNum = 0 ;
+        for(ChildData<Product> childData : groupData.getChildList()){
+            if(childData.isSelected()) selectedNum++;
+        }
+        holder.mGroupTailInfo.setText(String.format("选择了%d个商品",selectedNum));
     }
 
 
@@ -54,11 +98,12 @@ public class WhmShoppintCartAdapter extends GroupListAdapter<Merchant,Product> {
         }
         return groupDataList;
     }
-    private static class ViewHolderChild {
-
+    private static class ViewHolderGroup {
+        public CheckBox mSelected;
     }
 
-    private static class ViewHolderGroup {
-
+    private static class ViewHolderChild {
+        public CheckBox mSelected;
+        public TextView mGroupTailInfo;
     }
 }

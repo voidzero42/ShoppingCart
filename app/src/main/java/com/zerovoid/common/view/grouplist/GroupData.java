@@ -31,6 +31,9 @@ public final class GroupData <GROUP/*group data*/, CHILD /*child data*/> {
     public GroupData(GROUP group, List<ChildData<CHILD>>  childList){
         mGroup = group;
         mChildList = childList;
+        for(ChildData<CHILD> childData: childList){
+            childData.setGroupData(this);
+        }
     }
     public int getChildCount(){
 
@@ -56,5 +59,8 @@ public final class GroupData <GROUP/*group data*/, CHILD /*child data*/> {
 
     public void setChildList(List<ChildData<CHILD>> childList) {
         mChildList = childList;
+        for(ChildData<CHILD> childData: childList){
+            childData.setGroupData(this);
+        }
     }
 }

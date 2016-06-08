@@ -3,6 +3,7 @@ package com.zerovoid.common.view.grouplist;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -10,11 +11,55 @@ import java.util.List;
  * Created by wanghaiming on 2016/6/3.
  */
 abstract public class GroupListAdapter<GROUP,CHILD> extends BaseExpandableListAdapter {
+
+
+
+    public interface OnDataSetChangeListener {
+        void onDataSetChanged(List<? extends GroupData> groupDataList);
+    }
     private List<? extends GroupData<GROUP,CHILD>>  mGroupDataList;
+    private OnDataSetChangeListener mOnDataSetChangeListener;
+
 
     public GroupListAdapter(List<? extends GroupData<GROUP,CHILD>> groupDataList){
         mGroupDataList = groupDataList;
     }
+
+    public OnDataSetChangeListener getOnDataSetChangeListener() {
+        return mOnDataSetChangeListener;
+    }
+
+    public void setOnDataSetChangeListener(OnDataSetChangeListener onDataSetChangeListener) {
+        mOnDataSetChangeListener = onDataSetChangeListener;
+    }
+
+    public int getSelectedCount() {
+        int selectedCount = 0;
+        for(GroupData<GROUP,CHILD> groupData : mGroupDataList){
+            for(ChildData<CHILD> childData : groupData.getChildList()){
+                if(childData.isSelected()){
+                    selectedCount++;
+                }
+            }
+        }
+        return selectedCount;
+    }
+    public boolean isAllSelected(){
+        for(GroupData<GROUP,CHILD> groupData : mGroupDataList){
+            if(!groupData.isSelected()){
+                return false;
+            }
+        }
+        return true;
+    }
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        if(mOnDataSetChangeListener != null){
+            mOnDataSetChangeListener.onDataSetChanged(mGroupDataList);
+        }
+    }
+
     @Override
     public int getGroupCount() {
         return mGroupDataList.size();
@@ -61,7 +106,7 @@ abstract public class GroupListAdapter<GROUP,CHILD> extends BaseExpandableListAd
     abstract protected void onBindGroupView(ViewGroup parent, int groupViewType, View groupView, GroupData<GROUP,CHILD> groupData);
 
     abstract protected View onCreateChildView(ViewGroup parent,int childViewType,boolean isLasChild);
-    abstract protected View onBindChildView(ViewGroup parent,int childViewType,boolean isLastChild,View childView,ChildData<CHILD> childData);
+    abstract protected void onBindChildView(ViewGroup parent,int childViewType,boolean isLastChild,View childView,ChildData<CHILD> childData);
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
@@ -82,10 +127,54 @@ abstract public class GroupListAdapter<GROUP,CHILD> extends BaseExpandableListAd
         return convertView;
     }
 
-    protected void onGroupSelectedChanged(GroupData<GROUP,CHILD> groupData,boolean selected){
-
+    public void onGroupSelectedChanged(GroupData<GROUP,CHILD> groupData,boolean selected){
+        groupData.setSelected(selected);
+        for(ChildData<CHILD> childData : groupData.getChildList()){
+            childData.setSelected(selected);
+        }
+        notifyDataSetChanged();
     }
-    protected void onGroupEditingChanged(GroupData<GROUP,CHILD> groupData,boolean editing){
+    public void onGroupEditingChanged(GroupData<GROUP,CHILD> groupData,boolean editing){
+        groupData.setEditing(editing);
+        for(ChildData<CHILD> childData : groupData.getChildList()){
+            childData.setEditing(editing);
+        }
+        notifyDataSetChanged();
+    }
+    public void onAllSelectedChanged(boolean selected){
+        for(GroupData<GROUP,CHILD> groupData: mGroupDataList){
+            groupData.setSelected(selected);
+            for(ChildData<CHILD> childData : groupData.getChildList()){
+                childData.setSelected(selected);
+            }
+        }
+        notifyDataSetChanged();
+    }
+    public void onAllEditingChanged(boolean editing){
+        for(GroupData<GROUP,CHILD> groupData: mGroupDataList){
+            groupData.setEditing(editing);
+            for(ChildData<CHILD> childData : groupData.getChildList()){
+                childData.setEditing(editing);
+            }
+        }
+        notifyDataSetChanged();
+    }
 
+    public void onChildSelectedChanged(ChildData<CHILD> childData,boolean selected){
+        childData.setSelected(selected);
+        boolean hasUnSelectedChild = false;
+        for(ChildData<CHILD> sibling : childData.getGroupData().getChildList()){
+            if(!sibling.isSelected()){
+                hasUnSelectedChild =  true;
+                break;
+            }
+        }
+        if(!hasUnSelectedChild){
+            childData.getGroupData().setSelected(true);
+        }
+        else {
+            childData.getGroupData().setSelected(false);
+        }
+        notifyDataSetChanged();
     }
 }

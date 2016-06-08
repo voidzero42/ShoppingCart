@@ -5,8 +5,18 @@ package com.zerovoid.common.view.grouplist;
  */
 public final class ChildData<CHILD>{
     private CHILD mChild;
+    private GroupData<?,CHILD> mGroupData;
     private boolean mIsSelected;
     private boolean mIsEditing;
+    private boolean mIsEditingSelected;
+
+    public GroupData<?, CHILD> getGroupData() {
+        return mGroupData;
+    }
+
+    public void setGroupData(GroupData<?, CHILD> groupData) {
+        mGroupData = groupData;
+    }
 
     public ChildData(CHILD child){
         mChild = child;
@@ -17,6 +27,14 @@ public final class ChildData<CHILD>{
 
     public void setChild(CHILD child) {
         mChild = child;
+    }
+
+    public boolean isEditingSelected() {
+        return mIsEditingSelected;
+    }
+
+    public void setEditingSelected(boolean editingSelected) {
+        mIsEditingSelected = editingSelected;
     }
 
     public boolean isSelected() {
@@ -33,5 +51,6 @@ public final class ChildData<CHILD>{
 
     public void setEditing(boolean editing) {
         mIsEditing = editing;
+        mIsEditingSelected = false;
     }
 }

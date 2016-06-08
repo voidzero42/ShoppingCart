@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ShoppingCartActivity"/>
-        <activity android:name="com.zerovoid.whmshoppintcart.WhmShoppintCartActivity"/>
+        <activity android:name="com.zerovoid.whmshoppintcart.WhmShoppingCartActivity"/>
 
 
 
