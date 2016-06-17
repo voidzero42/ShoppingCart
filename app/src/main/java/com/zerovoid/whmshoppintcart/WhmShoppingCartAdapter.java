@@ -7,7 +7,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.zerovoid.common.view.grouplist.ChildData;
-import com.zerovoid.common.view.grouplist.CustomChildData;
 import com.zerovoid.common.view.grouplist.GroupData;
 import com.zerovoid.common.view.grouplist.AbstractGroupListAdapter;
 import com.zerovoid.shoppingcart.R;
