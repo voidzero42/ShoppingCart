@@ -6,22 +6,22 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by wanghaiming on 2016/6/3.
  */
-abstract public class GroupListAdapter<GROUP,CHILD> extends BaseExpandableListAdapter {
-
-
+abstract public class AbstractGroupListAdapter<GROUP,CHILD> extends BaseExpandableListAdapter {
 
     public interface OnDataSetChangeListener {
         void onDataSetChanged(List<? extends GroupData> groupDataList);
     }
+
     private List<? extends GroupData<GROUP,CHILD>>  mGroupDataList;
     private OnDataSetChangeListener mOnDataSetChangeListener;
 
 
-    public GroupListAdapter(List<? extends GroupData<GROUP,CHILD>> groupDataList){
+    public AbstractGroupListAdapter(List<? extends GroupData<GROUP,CHILD>> groupDataList){
         mGroupDataList = groupDataList;
     }
 
@@ -101,13 +101,6 @@ abstract public class GroupListAdapter<GROUP,CHILD> extends BaseExpandableListAd
         return false;
     }
 
-
-    abstract protected View onCreateGroupView(ViewGroup parent,int groupViewType);
-    abstract protected void onBindGroupView(ViewGroup parent, int groupViewType, View groupView, GroupData<GROUP,CHILD> groupData);
-
-    abstract protected View onCreateChildView(ViewGroup parent,int childViewType,boolean isLasChild);
-    abstract protected void onBindChildView(ViewGroup parent,int childViewType,boolean isLastChild,View childView,ChildData<CHILD> childData);
-
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if(convertView == null){
@@ -127,6 +120,14 @@ abstract public class GroupListAdapter<GROUP,CHILD> extends BaseExpandableListAd
         return convertView;
     }
 
+    abstract protected View onCreateGroupView(ViewGroup parent,int groupViewType);
+    abstract protected void onBindGroupView(ViewGroup parent, int groupViewType, View groupView, GroupData<GROUP,CHILD> groupData);
+
+    abstract protected View onCreateChildView(ViewGroup parent,int childViewType,boolean isLasChild);
+    abstract protected void onBindChildView(ViewGroup parent,int childViewType,boolean isLastChild,View childView,ChildData<CHILD> childData);
+
+
+    //------------------------------------------specific interface-------------------------------------------------
     public void onGroupSelectedChanged(GroupData<GROUP,CHILD> groupData,boolean selected){
         groupData.setSelected(selected);
         for(ChildData<CHILD> childData : groupData.getChildList()){
@@ -174,6 +175,35 @@ abstract public class GroupListAdapter<GROUP,CHILD> extends BaseExpandableListAd
         }
         else {
             childData.getGroupData().setSelected(false);
+        }
+        notifyDataSetChanged();
+    }
+    public void removeChild(int groupPos, int childPos){
+        GroupData<GROUP,CHILD> groupData = mGroupDataList.get(groupPos);
+        groupData.removeChild(childPos);
+        if(groupData.getChildCount() == 0){
+            mGroupDataList.remove(groupData);
+        }
+        notifyDataSetChanged();
+    }
+    public void removeAllSelectedChild(){
+
+        ListIterator<? extends GroupData<GROUP,CHILD>>  groupDataListIterator = mGroupDataList.listIterator();
+        while(groupDataListIterator.hasNext()){
+
+            GroupData<GROUP,CHILD> groupData = groupDataListIterator.next();
+
+            ListIterator<? extends ChildData<CHILD>> childDataListIterator = groupData.getChildList().listIterator();
+            while(childDataListIterator.hasNext()){
+                ChildData<CHILD> childData = childDataListIterator.next();
+                if(childData.isSelected()){
+                    childDataListIterator.remove();
+                }
+            }
+
+            if(groupData.getChildCount() <= 0){
+                groupDataListIterator.remove();
+            }
         }
         notifyDataSetChanged();
     }

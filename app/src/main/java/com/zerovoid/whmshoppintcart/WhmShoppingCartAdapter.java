@@ -7,11 +7,10 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.zerovoid.common.view.grouplist.ChildData;
+import com.zerovoid.common.view.grouplist.CustomChildData;
 import com.zerovoid.common.view.grouplist.GroupData;
-import com.zerovoid.common.view.grouplist.GroupListAdapter;
+import com.zerovoid.common.view.grouplist.AbstractGroupListAdapter;
 import com.zerovoid.shoppingcart.R;
-
-import org.w3c.dom.Text;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,9 +18,9 @@ import java.util.List;
 /**
  * Created by wanghaiming on 2016/6/4.
  */
-public class WhmShoppintCartAdapter extends GroupListAdapter<Merchant,Product> {
+public class WhmShoppingCartAdapter extends AbstractGroupListAdapter<Merchant,Product> {
 
-    public WhmShoppintCartAdapter(List<? extends GroupData<Merchant, Product>> groupDataList) {
+    public WhmShoppingCartAdapter(List<? extends GroupData<Merchant, Product>> groupDataList) {
         super(groupDataList);
     }
 
@@ -37,14 +36,7 @@ public class WhmShoppintCartAdapter extends GroupListAdapter<Merchant,Product> {
     @Override
     protected void onBindGroupView(ViewGroup parent, int groupViewType, final View groupView, final GroupData<Merchant,Product> group) {
         ViewHolderGroup holderGroup = (ViewHolderGroup)groupView.getTag();
-//        holderGroup.mSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(buttonView.isFocused()){
-//                    onGroupSelectedChanged(group,isChecked);
-//                }
-//            }
-//        });
+
         holderGroup.mSelected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,21 +68,23 @@ public class WhmShoppintCartAdapter extends GroupListAdapter<Merchant,Product> {
         holder.mSelected.setChecked(child.isSelected());
 
         holder.mGroupTailInfo.setVisibility(isLastChild? View.VISIBLE:View.GONE);
-        GroupData<?,Product> groupData = child.getGroupData();
-        int selectedNum = 0 ;
-        for(ChildData<Product> childData : groupData.getChildList()){
-            if(childData.isSelected()) selectedNum++;
+        if(isLastChild){
+            GroupData<?,Product> groupData = child.getGroupData();
+            int selectedNum = 0 ;
+            for(ChildData<Product> childData : groupData.getChildList()){
+                if(childData.isSelected()) selectedNum++;
+            }
+            holder.mGroupTailInfo.setText(String.format("选择了%d个商品",selectedNum));
         }
-        holder.mGroupTailInfo.setText(String.format("选择了%d个商品",selectedNum));
     }
 
 
     public static List<GroupData<Merchant,Product>> createTestData(){
         List<GroupData<Merchant,Product>> groupDataList = new LinkedList<GroupData<Merchant,Product>>();
         for(int i = 0; i < 5; i++){
-            List<ChildData<Product>> childList = new LinkedList<>();
+            List<CustomChildData<Product>> childList = new LinkedList<>();
             for(int j = 0 ; j < 3; j++){
-                childList.add(new ChildData<Product>(new Product()));
+                childList.add(new CustomChildData<Product>(new Product()));
             }
             GroupData<Merchant,Product> groupData = new GroupData<Merchant,Product>(new Merchant(),childList);
 

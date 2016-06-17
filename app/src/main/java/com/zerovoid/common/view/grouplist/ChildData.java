@@ -3,7 +3,7 @@ package com.zerovoid.common.view.grouplist;
 /**
  * Created by wanghaiming on 2016/6/3.
  */
-public final class ChildData<CHILD>{
+public  class ChildData<CHILD>{
     private CHILD mChild;
     private GroupData<?,CHILD> mGroupData;
     private boolean mIsSelected;
@@ -29,20 +29,18 @@ public final class ChildData<CHILD>{
         mChild = child;
     }
 
-    public boolean isEditingSelected() {
-        return mIsEditingSelected;
-    }
-
-    public void setEditingSelected(boolean editingSelected) {
-        mIsEditingSelected = editingSelected;
-    }
-
     public boolean isSelected() {
-        return mIsSelected;
+        return mIsEditing? mIsEditingSelected: mIsSelected;
     }
 
     public void setSelected(boolean selected) {
-        mIsSelected = selected;
+
+        if(mIsEditing){
+            mIsEditingSelected = selected;
+        }
+        else{
+            mIsSelected = selected;
+        }
     }
 
     public boolean isEditing() {

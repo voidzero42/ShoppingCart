@@ -5,19 +5,33 @@ import java.util.List;
 /**
  * Created by wanghaiming on 2016/6/3.
  */
-public final class GroupData <GROUP/*group data*/, CHILD /*child data*/> {
+public  class GroupData <GROUP/*group data*/, CHILD /*child data*/> {
     private GROUP mGroup;
-    private boolean mSelected;
+    private boolean mIsSelected;
     private boolean mIsEditing;
+    private boolean mIsEditingSelected;
 
-    private List<ChildData<CHILD>> mChildList;
+    private List<? extends ChildData<CHILD>> mChildList;
+
+    public GroupData(GROUP group, List< ? extends ChildData<CHILD>>  childList){
+        mGroup = group;
+        mChildList = childList;
+        for(ChildData<CHILD> childData: childList){
+            childData.setGroupData(this);
+        }
+    }
 
     public boolean isSelected() {
-        return mSelected;
+        return mIsEditing? mIsEditingSelected: mIsSelected;
     }
 
     public void setSelected(boolean selected) {
-        mSelected = selected;
+        if(mIsEditing){
+            mIsEditingSelected = selected;
+        }
+        else{
+            mIsSelected = selected;
+        }
     }
 
     public boolean isEditing() {
@@ -26,23 +40,7 @@ public final class GroupData <GROUP/*group data*/, CHILD /*child data*/> {
 
     public void setEditing(boolean editing) {
         mIsEditing = editing;
-    }
-
-    public GroupData(GROUP group, List<ChildData<CHILD>>  childList){
-        mGroup = group;
-        mChildList = childList;
-        for(ChildData<CHILD> childData: childList){
-            childData.setGroupData(this);
-        }
-    }
-    public int getChildCount(){
-
-        if(mChildList == null) return 0;
-
-        return mChildList.size();
-    }
-    public ChildData<CHILD> getChild(int childPos){
-        return mChildList.get(childPos);
+        mIsEditingSelected = false;
     }
 
     public GROUP getGroup() {
@@ -53,7 +51,8 @@ public final class GroupData <GROUP/*group data*/, CHILD /*child data*/> {
         mGroup = group;
     }
 
-    public List<ChildData<CHILD>> getChildList() {
+    public List<? extends ChildData<CHILD>> getChildList() {
+
         return mChildList;
     }
 
@@ -63,4 +62,24 @@ public final class GroupData <GROUP/*group data*/, CHILD /*child data*/> {
             childData.setGroupData(this);
         }
     }
+
+    public int getChildCount(){
+
+        if(mChildList == null) return 0;
+
+        return mChildList.size();
+    }
+    public ChildData<CHILD> getChild(int childPos)
+    {
+        return mChildList.get(childPos);
+    }
+    public void removeChild(int childPos)
+    {
+        mChildList.remove(childPos);
+    }
+    public void removeChild(ChildData<CHILD> child)
+    {
+        mChildList.remove(child);
+    }
+
 }
