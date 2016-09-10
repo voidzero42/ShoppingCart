@@ -46,3 +46,6 @@ gradlew
 gradlew.bat
 slidingmenu/src/androidTest/
 LibPullToRefresh/src/androidTest/
+shoppinglibrary1/src/androidTest/
+shoppinglibrary1/proguard-rules.pro
+shoppinglibrary1/src/test/
